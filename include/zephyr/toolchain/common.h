@@ -96,6 +96,10 @@
 
     #define PERFOPT_ALIGN .align  4
 
+  #elif defined(CONFIG_TRICORE)
+
+    #define PERFOPT_ALIGN .align  4
+
   #else
 
     #error Architecture unsupported

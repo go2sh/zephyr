@@ -59,6 +59,9 @@
 	/* Not needed */
 #elif defined(CONFIG_SPARC)
 	OUTPUT_FORMAT("elf32-sparc")
+#elif defined(CONFIG_TRICORE)
+	OUTPUT_FORMAT("elf32-tricore")
+	OUTPUT_ARCH(tricore)
 #else
 	#error Arch not supported.
 #endif

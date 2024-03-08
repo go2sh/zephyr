@@ -1,0 +1,9 @@
+# Copyright 2024 Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+description: Infineon Tricore 1.6.2
+
+compatible: "infineon,tc162"
+
+include: cpu.yaml
+

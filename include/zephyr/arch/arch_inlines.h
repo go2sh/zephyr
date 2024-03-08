@@ -32,6 +32,8 @@
 #include <zephyr/arch/posix/arch_inlines.h>
 #elif defined(CONFIG_SPARC)
 #include <zephyr/arch/sparc/arch_inlines.h>
+#elif defined(CONFIG_TRICORE)
+#include <zephyr/arch/tricore/arch_inlines.h>
 #else
 #error "Unknown Architecture"
 #endif

@@ -33,6 +33,17 @@ if(NOT "${ARCH}" STREQUAL "posix")
     include(${ZEPHYR_BASE}/cmake/compiler/clang/target_arm.cmake)
   endif()
 
+  if("${ARCH}" STREQUAL "tricore")
+    list(APPEND TOOLCHAIN_C_FLAGS
+      -fshort-enums
+      )
+    list(APPEND TOOLCHAIN_LD_FLAGS
+      -fshort-enums
+      )
+
+    include(${ZEPHYR_BASE}/cmake/compiler/clang/target_tricore.cmake)
+  endif()
+
   if(DEFINED CMAKE_C_COMPILER_TARGET)
     set(clang_target_flag "--target=${CMAKE_C_COMPILER_TARGET}")
   endif()
