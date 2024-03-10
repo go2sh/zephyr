@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2024 Infineon Technologies AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#ifndef ZEPHYR_DRIVERS_CLOCK_CONTROL_TC3XX_PLL_H_
+#define ZEPHYR_DRIVERS_CLOCK_CONTROL_TC3XX_PLL_H_
+
+#define SCU_ID          0x08
+#define SCU_OSCCON      0x10
+#define SCU_SYSPLLSTAT  0x14
+#define SCU_SYSPLLCON0  0x18
+#define SCU_SYSPLLCON1  0x1C
+#define SCU_SYSPLLCON2  0x20
+#define SCU_PERPLLSTAT  0x24
+#define SCU_PERPLLCON0  0x28
+#define SCU_PERPLLCON1  0x2C
+#define SCU_CCUCON0     0x30
+#define SCU_CCUCON1     0x34
+#define SCU_CCUCON2     0x40
+#define SCU_CCUCON3     0x44
+#define SCU_CCUCON4     0x48
+#define SCU_CCUCON5     0x4C
+#define SCU_CCUCON6     0x80
+
+#define SCU_OSCCON_PLLLV_POS    1
+#define SCU_OSCCON_MODE_POS     5
+#define SCU_OSCCON_PLLHV_POS    8
+#define SCU_OSCCON_OSCVAL_POS   16
+#define SCU_OSCCON_MODE_MSK     (3 << SCU_OSCCON_MODE_POS)
+#define SCU_OSCCON_OSCVAL_MSK   (0x1F << SCU_OSCCON_OSCVAL_POS)
+
+#define SCU_PLLSTAT_PWDSTAT_POS 1
+#define SCU_PLLSTAT_LOCK_POS    2
+#define SCU_PLLSTAT_K2RDY_POS   5
+#define SCU_PLLSTAT_K3RDY_POS   4
+
+#define SCU_PLLCON0_DIVBY_POS   0
+#define SCU_PLLCON0_MODEN_POS   2
+#define SCU_PLLCON0_PLLPWD_POS  16
+#define SCU_PLLCON0_RESLD_POS   18
+
+#define SCU_CCUCON_UP_POS   30
+#define SCU_CCUCON_LCK_POS  31
+
+#define SCU_CCUCON0_CLKSEL_POS 28
+#define SCU_CCUCON0_CLKSEL_MSK (3 << SCU_CCUCON0_CLKSEL_POS)
+
+
+
+#endif

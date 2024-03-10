@@ -1,0 +1,27 @@
+# Copyright (c) Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+description: TC3XX PLL Clock
+
+compatible: "infineon,tc3xx-pll-clock"
+
+include: clock-controller.yaml
+
+properties:
+  n-div:
+      type: int
+      required: true
+  
+  p-div:
+      type: int
+      required: true
+
+  divby:
+    type: boolean
+
+  clocks:
+    type: phandle-array
+    description: input clock source
+
+  "#clock-cells":
+    const: 0
