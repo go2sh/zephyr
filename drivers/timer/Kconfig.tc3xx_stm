@@ -1,0 +1,9 @@
+DT_CHOSEN_SYSTEM_TIMER := infineon,system-timer
+
+config TC3XX_STM_TIMER
+    bool "TC3xx Sytem Timer Module"
+	depends on SOC_SERIES_TC3XX
+	select TICKLESS_CAPABLE
+	select SYSTEM_TIMER_HAS_DISABLE_SUPPORT
+	select TIMER_HAS_64BIT_CYCLE_COUNTER
+	default y if $(dt_chosen_enabled,$(DT_CHOSEN_SYSTEM_TIMER))
