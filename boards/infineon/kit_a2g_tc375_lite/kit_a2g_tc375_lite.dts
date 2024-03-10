@@ -1,0 +1,45 @@
+/*
+ * Copyright (c) 2024 Infineon Technologies AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <infineon/tc375tp.dtsi>
+
+/ {
+	model = "Infineon TC375 LiteKit";
+	compatible = "infineon,kit_a2g_tc375_lite", "infineon,tc375tp",
+						"infineon,tc3xx";
+
+	chosen {
+		zephyr,flash = &flash0;
+		zephyr,sram = &dsram0;
+		zephyr,itcm = &psram0;
+		infineon,tc3xx-stm = &stm0;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		led0: led_0 {
+			gpios = <&p0 5 GPIO_ACTIVE_LOW>;
+		};
+		led1: led_1 {
+			gpios = <&p0 6 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	aliases {
+		led0 = &led0;
+    };
+};
+
+&stm0 {
+	status = "okay";
+	freeze;
+};
+
+&p0 {
+	status = "okay";
+};
