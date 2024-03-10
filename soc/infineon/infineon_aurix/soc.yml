@@ -1,0 +1,10 @@
+family:
+- name: infineon_aurix
+  series:
+  - name: tc3xx
+    socs:
+    - name: tc375tp
+      cpuclusters:
+      - name: tc162
+      - name: tc162
+      - name: tc162

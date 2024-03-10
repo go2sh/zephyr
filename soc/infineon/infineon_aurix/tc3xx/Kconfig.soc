@@ -1,0 +1,19 @@
+# Copyright (c) 2024 Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+# Infineon Aurix 2nd Generation Devices
+
+config SOC_SERIES_TC3XX
+	select SOC_FAMILY_INFINEON_AURIX
+	help
+	  Enable support for TC3XX MCU series
+
+config SOC_SERIES
+    default "tc3xx" if SOC_SERIES_TC3XX
+	
+config SOC_TC375TP
+	bool
+	select SOC_SERIES_TC3XX
+
+config SOC
+	default "tc375tp" if SOC_TC375TP
