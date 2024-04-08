@@ -41,7 +41,7 @@ SECTION_FUNC(TEXT, __z_tricore_start_thread)
 	ld.w	%d15, [%a4]+_thread_offset_to_a11
 	st.w	[%a15]+__z_tricore_lower_context_t_a11_OFFSET, %d15
 	ld.w	%d15, [%a4]+_thread_offset_to_a10
-	st.w	[%a15]+__z_tricore_upper_context_t_a10_OFFSET, %d15
+	st.w	[%a14]+__z_tricore_upper_context_t_a10_OFFSET, %d15
 	ld.w	%d15, [%a4]+_thread_offset_to_psw
 	st.w	[%a14]+__z_tricore_upper_context_t_psw_OFFSET, %d15
 	mov		%d15, 0

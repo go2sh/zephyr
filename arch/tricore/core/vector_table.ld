@@ -1,3 +1,4 @@
+. = ALIGN(256);
 __btv = .;
 KEEP(*(.vectors.trap*))
 __biv = .;

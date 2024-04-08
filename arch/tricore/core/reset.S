@@ -17,8 +17,8 @@ GDATA(__btv)
 
 SECTION_FUNC(reset,__start)
     /* Load ISR and main stack pointer */
-    mov     %d15, lo:z_interrupt_stacks
-    addih   %d15, %d15, hi:z_interrupt_stacks
+    mov     %d15, lo:(z_interrupt_stacks + CONFIG_ISR_STACK_SIZE)
+    addih   %d15, %d15, hi:(z_interrupt_stacks + CONFIG_ISR_STACK_SIZE)
     mov.a   %sp, %d15
     mtcr    0xFE28, %d15
 

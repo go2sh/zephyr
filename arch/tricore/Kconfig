@@ -9,6 +9,7 @@ config ARCH
 	default "tricore"
 
 config CPU_TC162
+	select ARCH_HAS_NOCACHE_MEMORY_SUPPORT
 	bool
 
 config TRICORE_CSA_COUNT

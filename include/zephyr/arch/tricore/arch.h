@@ -10,6 +10,7 @@
 #include <zephyr/arch/tricore/thread.h>
 #include <zephyr/arch/tricore/irq.h>
 
+#include <zephyr/arch/common/sys_io.h>
 #include <zephyr/arch/common/sys_bitops.h>
 #include <zephyr/arch/common/ffs.h>
 #if defined(CONFIG_USERSPACE)
@@ -19,7 +20,7 @@
 #include <zephyr/sw_isr_table.h>
 #include <zephyr/devicetree.h>
 
-#define ARCH_STACK_PTR_ALIGN  4
+#define ARCH_STACK_PTR_ALIGN  8
 
 #ifndef _ASMLANGUAGE
 #include <zephyr/sys/util.h>
@@ -31,17 +32,27 @@ extern "C" {
 
 static ALWAYS_INLINE unsigned int arch_irq_lock(void)
 {
-	return 0;
+	unsigned int key;
+	__asm volatile(
+		"	mfcr %0, 0xFE2C\n"
+		"	disable"
+		: "=d"(key)
+	);
+	return key;
 }
 
 static ALWAYS_INLINE void arch_irq_unlock(unsigned int key)
 {
-
+	if (arch_irq_unlocked(key)) {
+		__asm volatile(
+			"	enable\n\t"
+		);
+	}
 }
 
 static ALWAYS_INLINE bool arch_irq_unlocked(unsigned int key)
 {
-	return key & 1;
+	return (key & (1 << 15)) != 0;
 }
 
 
