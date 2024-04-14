@@ -72,7 +72,7 @@ Z_GENERIC_SECTION(.irq_info) __used struct int_list_header _iheader = {
 #define BUILD_VECTOR(n, _) __asm(ARCH_IRQ_VECTOR_JUMP_CODE(IRQ_VECTOR_TABLE_DEFAULT_ISR))
 
 /* The IRQ vector table contains the jump opcodes towards the vector routine */
-void __irq_vector_table __attribute__((naked)) _irq_vector_table(void) {
+void __irq_vector_table __attribute__((naked, weak)) _irq_vector_table(void) {
 	 LISTIFY(CONFIG_NUM_IRQS, BUILD_VECTOR, (;));
 };
 #else
@@ -88,7 +88,7 @@ uintptr_t __irq_vector_table _irq_vector_table[IRQ_TABLE_SIZE] = {
  * type and bypass the _sw_isr_table, then do not generate one.
  */
 #ifdef CONFIG_GEN_SW_ISR_TABLE
-struct _isr_table_entry __sw_isr_table _sw_isr_table[IRQ_TABLE_SIZE] = {
+struct _isr_table_entry __sw_isr_table __attribute__((weak)) _sw_isr_table[IRQ_TABLE_SIZE] = {
 	[0 ...(IRQ_TABLE_SIZE - 1)] = {(const void *)0x42,
 				       (void *)&z_irq_spurious},
 };

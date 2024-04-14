@@ -30,6 +30,16 @@
 
 #include <zephyr/toolchain/gcc.h>
 
+#undef BUILD_ASSERT /* clear out common version */
+/* C++11 has static_assert built in */
+#if defined(__cplusplus) && (__cplusplus >= 201103L)
+#define BUILD_ASSERT(EXPR, MSG...) static_assert(EXPR, "" MSG)
+#elif !defined(__cplusplus) && defined (__clang__) && __has_extension(c_static_assert)
+#define BUILD_ASSERT(EXPR, MSG...) _Static_assert(EXPR, "" MSG)
+#else
+#define BUILD_ASSERT(EXPR, MSG...)
+#endif
+
 #ifndef __INT8_C
 #define __INT8_C(x)	x
 #endif
