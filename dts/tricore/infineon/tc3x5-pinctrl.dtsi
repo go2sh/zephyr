@@ -6,5 +6,814 @@
 #include <zephyr/dt-bindings/pinctrl/tc3xx-pinctrl.h>
 
 &pinctrl {
-
+    /omit-if-no-ref/ asclin0_cts_p14_9: asclin0_cts_p14_9 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 9, A)>;
+		pin-type = <1>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_rts_p14_7: asclin0_rts_p14_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 7, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin0_rx_p14_1: asclin0_rx_p14_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 1, A)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_rx_p15_3: asclin0_rx_p15_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(15, 3, B)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_rx_p33_10: asclin0_rx_p33_10 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 10, D)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_sclk_p14_0: asclin0_sclk_p14_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 0, O6)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_sclk_p15_2: asclin0_sclk_p15_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 2, O6)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_tx_p14_0: asclin0_tx_p14_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_tx_p14_1: asclin0_tx_p14_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 1, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_tx_p15_2: asclin0_tx_p15_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 2, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_tx_p15_3: asclin0_tx_p15_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 3, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin0_tx_p33_9: asclin0_tx_p33_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 9, O6)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin1_cts_p20_7: asclin1_cts_p20_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 7, A)>;
+		pin-type = <1>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_cts_p32_4: asclin1_cts_p32_4 {
+		pinmux = <TC3XX_INPUT_PINMUX(32, 4, B)>;
+		pin-type = <1>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_rts_p20_6: asclin1_rts_p20_6 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 6, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin1_rts_p23_1: asclin1_rts_p23_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(23, 1, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_rx_p02_3: asclin1_rx_p02_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 3, G)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin1_rx_p11_10: asclin1_rx_p11_10 {
+		pinmux = <TC3XX_INPUT_PINMUX(11, 10, E)>;
+		pin-type = <0>;
+		pad-type = "fast / rgmii_input"
+	};
+	/omit-if-no-ref/ asclin1_rx_p14_8: asclin1_rx_p14_8 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 8, D)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin1_rx_p15_1: asclin1_rx_p15_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(15, 1, A)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_rx_p15_5: asclin1_rx_p15_5 {
+		pinmux = <TC3XX_INPUT_PINMUX(15, 5, B)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_rx_p20_9: asclin1_rx_p20_9 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 9, C)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_rx_p33_13: asclin1_rx_p33_13 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 13, F)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_sclk_p15_0: asclin1_sclk_p15_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 0, O6)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_sclk_p20_10: asclin1_sclk_p20_10 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 10, O6)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_sclk_p33_11: asclin1_sclk_p33_11 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 11, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_sclk_p33_12: asclin1_sclk_p33_12 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 12, O4)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p02_2: asclin1_tx_p02_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 2, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p11_12: asclin1_tx_p11_12 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 12, O2)>;
+		output-enable;
+		pad-type = "fast / rgmii_input"
+	};
+	/omit-if-no-ref/ asclin1_tx_p14_10: asclin1_tx_p14_10 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 10, O4)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p15_0: asclin1_tx_p15_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p15_1: asclin1_tx_p15_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 1, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p15_4: asclin1_tx_p15_4 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 4, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p15_5: asclin1_tx_p15_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 5, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p20_10: asclin1_tx_p20_10 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 10, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p33_12: asclin1_tx_p33_12 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 12, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin1_tx_p33_13: asclin1_tx_p33_13 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 13, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin2_cts_p10_7: asclin2_cts_p10_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(10, 7, A)>;
+		pin-type = <1>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_cts_p33_5: asclin2_cts_p33_5 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 5, B)>;
+		pin-type = <1>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_rts_p10_8: asclin2_rts_p10_8 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(10, 8, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_rts_p33_4: asclin2_rts_p33_4 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 4, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_rx_p02_0: asclin2_rx_p02_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 0, G)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin2_rx_p02_1: asclin2_rx_p02_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 1, B)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_rx_p02_10: asclin2_rx_p02_10 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 10, C)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_rx_p10_6: asclin2_rx_p10_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(10, 6, D)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_rx_p14_3: asclin2_rx_p14_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 3, A)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_rx_p32_6: asclin2_rx_p32_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(32, 6, F)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_rx_p33_8: asclin2_rx_p33_8 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 8, E)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin2_sclk_p02_4: asclin2_sclk_p02_4 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 4, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin2_sclk_p10_6: asclin2_sclk_p10_6 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(10, 6, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_sclk_p14_2: asclin2_sclk_p14_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 2, O6)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_sclk_p33_7: asclin2_sclk_p33_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 7, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_sclk_p33_9: asclin2_sclk_p33_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 9, O4)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_tx_p02_0: asclin2_tx_p02_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin2_tx_p02_9: asclin2_tx_p02_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 9, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_tx_p10_5: asclin2_tx_p10_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(10, 5, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_tx_p14_2: asclin2_tx_p14_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 2, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_tx_p14_3: asclin2_tx_p14_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 3, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_tx_p32_5: asclin2_tx_p32_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(32, 5, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin2_tx_p33_8: asclin2_tx_p33_8 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 8, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin2_tx_p33_9: asclin2_tx_p33_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 9, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_cts_p00_12: asclin3_cts_p00_12 {
+		pinmux = <TC3XX_INPUT_PINMUX(00, 12, A)>;
+		pin-type = <1>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_rts_p00_9: asclin3_rts_p00_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 9, O3)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_rx_p00_1: asclin3_rx_p00_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(00, 1, E)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_rx_p11_0: asclin3_rx_p11_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(11, 0, B)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_rx_p15_7: asclin3_rx_p15_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(15, 7, A)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_rx_p20_3: asclin3_rx_p20_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 3, C)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_rx_p21_2: asclin3_rx_p21_2 {
+		pinmux = <TC3XX_INPUT_PINMUX(21, 2, G)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_rx_p21_3: asclin3_rx_p21_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(21, 3, G)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_rx_p21_6: asclin3_rx_p21_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(21, 6, F)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_rx_p32_2: asclin3_rx_p32_2 {
+		pinmux = <TC3XX_INPUT_PINMUX(32, 2, D)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p00_0: asclin3_sclk_p00_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p00_2: asclin3_sclk_p00_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 2, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p11_1: asclin3_sclk_p11_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 1, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p11_4: asclin3_sclk_p11_4 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 4, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p15_6: asclin3_sclk_p15_6 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 6, O6)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p15_8: asclin3_sclk_p15_8 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 8, O6)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p20_0: asclin3_sclk_p20_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 0, O3)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p21_5: asclin3_sclk_p21_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(21, 5, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p21_7: asclin3_sclk_p21_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(21, 7, O3)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p32_3: asclin3_sclk_p32_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(32, 3, O4)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_sclk_p33_2: asclin3_sclk_p33_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 2, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_tx_p00_0: asclin3_tx_p00_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 0, O3)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p00_1: asclin3_tx_p00_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 1, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_tx_p11_0: asclin3_tx_p11_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p11_1: asclin3_tx_p11_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 1, O3)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p15_6: asclin3_tx_p15_6 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 6, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p15_7: asclin3_tx_p15_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 7, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p20_0: asclin3_tx_p20_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p20_3: asclin3_tx_p20_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 3, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_tx_p21_7: asclin3_tx_p21_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(21, 7, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p22_0: asclin3_tx_p22_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p22_1: asclin3_tx_p22_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 1, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin3_tx_p32_2: asclin3_tx_p32_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(32, 2, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin3_tx_p32_3: asclin3_tx_p32_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(32, 3, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_rx_p00_12: asclin4_rx_p00_12 {
+		pinmux = <TC3XX_INPUT_PINMUX(00, 12, A)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_rx_p22_6: asclin4_rx_p22_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(22, 6, C)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_rx_p22_9: asclin4_rx_p22_9 {
+		pinmux = <TC3XX_INPUT_PINMUX(22, 9, D)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_rx_p34_2: asclin4_rx_p34_2 {
+		pinmux = <TC3XX_INPUT_PINMUX(34, 2, B)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_sclk_p00_10: asclin4_sclk_p00_10 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 10, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_sclk_p22_7: asclin4_sclk_p22_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 7, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_sclk_p34_3: asclin4_sclk_p34_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(34, 3, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_tx_p00_9: asclin4_tx_p00_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 9, O5)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_tx_p22_5: asclin4_tx_p22_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 5, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_tx_p22_10: asclin4_tx_p22_10 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 10, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin4_tx_p34_1: asclin4_tx_p34_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(34, 1, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin5_rx_p00_6: asclin5_rx_p00_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(00, 6, A)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin5_rx_p22_3: asclin5_rx_p22_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(22, 3, C)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin5_rx_p33_4: asclin5_rx_p33_4 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 4, B)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin5_sclk_p22_8: asclin5_sclk_p22_8 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 8, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin5_sclk_p33_3: asclin5_sclk_p33_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 3, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin5_tx_p00_7: asclin5_tx_p00_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 7, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin5_tx_p22_2: asclin5_tx_p22_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 2, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin5_tx_p33_0: asclin5_tx_p33_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 0, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin6_rx_p22_0: asclin6_rx_p22_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(22, 0, E)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin6_rx_p23_1: asclin6_rx_p23_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(23, 1, F)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin6_rx_p23_3: asclin6_rx_p23_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(23, 3, A)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin6_rx_p32_6: asclin6_rx_p32_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(32, 6, C)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin6_sclk_p23_1: asclin6_sclk_p23_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(23, 1, O7)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin6_tx_p22_0: asclin6_tx_p22_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 0, O7)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin6_tx_p23_5: asclin6_tx_p23_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(23, 5, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin6_tx_p32_7: asclin6_tx_p32_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(32, 7, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin7_rx_p22_1: asclin7_rx_p22_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(22, 1, E)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin7_rx_p22_4: asclin7_rx_p22_4 {
+		pinmux = <TC3XX_INPUT_PINMUX(22, 4, F)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin7_rx_p23_2: asclin7_rx_p23_2 {
+		pinmux = <TC3XX_INPUT_PINMUX(23, 2, C)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin7_tx_p22_1: asclin7_tx_p22_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 1, O7)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin7_tx_p23_3: asclin7_tx_p23_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(23, 3, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin8_rx_p02_9: asclin8_rx_p02_9 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 9, A)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin8_rx_p02_10: asclin8_rx_p02_10 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 10, B)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin8_rx_p33_1: asclin8_rx_p33_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 1, C)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin8_rx_p33_6: asclin8_rx_p33_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 6, D)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin8_rx_p34_5: asclin8_rx_p34_5 {
+		pinmux = <TC3XX_INPUT_PINMUX(34, 5, E)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin8_sclk_p02_8: asclin8_sclk_p02_8 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 8, O3)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin8_tx_p02_9: asclin8_tx_p02_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 9, O3)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin8_tx_p33_7: asclin8_tx_p33_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 7, O4)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin8_tx_p34_5: asclin8_tx_p34_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(34, 5, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin9_rx_p01_5: asclin9_rx_p01_5 {
+		pinmux = <TC3XX_INPUT_PINMUX(01, 5, A)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin9_rx_p01_7: asclin9_rx_p01_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(01, 7, B)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin9_rx_p14_7: asclin9_rx_p14_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 7, C)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin9_rx_p14_9: asclin9_rx_p14_9 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 9, D)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin9_rx_p20_6: asclin9_rx_p20_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 6, E)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin9_rx_p20_7: asclin9_rx_p20_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 7, F)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin9_sclk_p01_6: asclin9_sclk_p01_6 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(01, 6, O3)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin9_tx_p01_7: asclin9_tx_p01_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(01, 7, O3)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin9_tx_p14_7: asclin9_tx_p14_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 7, O4)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin9_tx_p20_7: asclin9_tx_p20_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 7, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin10_rx_p00_4: asclin10_rx_p00_4 {
+		pinmux = <TC3XX_INPUT_PINMUX(00, 4, A)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin10_rx_p13_0: asclin10_rx_p13_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(13, 0, C)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin10_rx_p13_1: asclin10_rx_p13_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(13, 1, D)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin10_sclk_p13_2: asclin10_sclk_p13_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(13, 2, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin10_tx_p00_8: asclin10_tx_p00_8 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 8, O3)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin10_tx_p13_0: asclin10_tx_p13_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(13, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin11_rx_p10_0: asclin11_rx_p10_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(10, 0, A)>;
+		pin-type = <0>;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin11_rx_p10_4: asclin11_rx_p10_4 {
+		pinmux = <TC3XX_INPUT_PINMUX(10, 4, B)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin11_rx_p21_0: asclin11_rx_p21_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(21, 0, C)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin11_rx_p21_1: asclin11_rx_p21_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(21, 1, D)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin11_rx_p21_2: asclin11_rx_p21_2 {
+		pinmux = <TC3XX_INPUT_PINMUX(21, 2, E)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin11_rx_p21_5: asclin11_rx_p21_5 {
+		pinmux = <TC3XX_INPUT_PINMUX(21, 5, F)>;
+		pin-type = <0>;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin11_sclk_p21_3: asclin11_sclk_p21_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(21, 3, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin11_tx_p10_0: asclin11_tx_p10_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(10, 0, O2)>;
+		output-enable;
+		pad-type = "slow"
+	};
+	/omit-if-no-ref/ asclin11_tx_p21_0: asclin11_tx_p21_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(21, 0, O2)>;
+		output-enable;
+		pad-type = "fast"
+	};
+	/omit-if-no-ref/ asclin11_tx_p21_5: asclin11_tx_p21_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(21, 5, O3)>;
+		output-enable;
+		pad-type = "fast"
+	};
 };

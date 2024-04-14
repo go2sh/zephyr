@@ -1,0 +1,21 @@
+# Copyright (c) 2024, Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+description: Infineon ASCLIN Uart
+
+compatible: "infineon,asclin-uart"
+
+include: [uart-controller.yaml,  pinctrl-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  pinctrl-0:
+    required: true
+
+  pinctrl-names:
+    required: true

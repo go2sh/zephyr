@@ -1,0 +1,11 @@
+# Copyright (c) 2024 Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+config UART_ASCLIN
+	bool "Infineon ASCLIN UART driver"
+	default y
+	depends on DT_HAS_INFINEON_ASCLIN_UART_ENABLED
+	select SERIAL_HAS_DRIVER
+#	select SERIAL_SUPPORT_INTERRUPT
+	help
+	  Enable the Infineon ASCLIN UART driver
