@@ -387,11 +387,18 @@
 			interrupts = <192 1>;
 		};
 
-		p0: gpio@f003a000 {
-			compatible = "infineon,tc3xx-gpio";
-			gpio-controller;
-			#gpio-cells = <2>;
+		pinctrl: pinctrl@f003a000 {
+			compatible = "infineon,tc3xx-pinctrl";
 			reg = <0xF003A000 0x100>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			p0: gpio@f003a000 {
+				compatible = "infineon,tc3xx-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0xF003A000 0x100>;
+			};
 		};
 	};
 };
