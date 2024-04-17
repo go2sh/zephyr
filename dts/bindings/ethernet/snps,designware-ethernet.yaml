@@ -12,3 +12,15 @@ properties:
     required: true
   interrupts:
     required: true
+  snps,rx-channel-to-use:
+    type: int
+    default: 1
+  snps,address-aligned-burst:
+    type: boolean
+  snps,fixed-burst-length:
+    type: boolean
+  snps,burst-length:
+    type: int
+    enum: [ 1, 2, 4, 8, 16, 32, 64, 128, 256]
+    default: 1
+

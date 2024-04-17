@@ -1,0 +1,70 @@
+# Copyright (c) 2024, Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+description: Synopsys DesignWare Ethernet RX Queues Config
+
+compatible: "snps,designware-ethernet-rx-queues"
+
+properties:
+  snps,rx-queues-to-use:
+    type: int
+    description: number of RX queues to be used in the driver
+  snps,rx-sched-sp:
+    type: boolean
+    description: Strict priority
+  snps,rx-sched-wsp:
+    type: boolean
+    description: Weighted Strict priority
+
+child-binding:
+  description: RX Queue configuration
+
+  properties:
+    snps,size:
+      type: int
+      description: Dedicated Fifo size
+    snps,threshold:
+      type: int
+      enum:
+        - 32
+        - 64
+        - 96
+        - 128
+        - 192
+        - 256
+        - 384
+        - 512
+    snps,cut-through:
+      type: boolean
+    snps,store-and-forward:
+      type: boolean
+    snps,dcb-algorithm:
+      type: boolean
+      description: Queue to be enabled as DCB
+    snps,avb-algorithm:
+      type: boolean
+      description: Queue to be enabled as AVB
+    snps,map-to-dma-channel:
+      type: int
+      description: DMA channel id to map
+    snps,route-avcp:
+      type: boolean
+      description: AV Untagged Control packets
+    snps,route-ptp:
+      type: boolean
+      description: PTP Packets
+    snps,route-dcbcp:
+      type: boolean
+      description: DCB Control Packets
+    snps,route-up:
+      type: boolean
+      description: Untagged Packets
+    snps,route-multi-broad:
+      type: boolean
+      description: Multicast & Broadcast Packets
+    snps,priority:
+      type: int
+      description: Bitmask of the tagged frames priorities assigned to the queue
+    snps,size:
+      type: int
+      description: Size of queue memeory

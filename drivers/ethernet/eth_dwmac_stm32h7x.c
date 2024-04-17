@@ -45,8 +45,9 @@ static const struct stm32_pclken pclken_rx = {
 	.enr = DT_INST_CLOCKS_CELL_BY_NAME(0, mac_clk_rx, bits),
 };
 
-int dwmac_bus_init(struct dwmac_priv *p)
+int dwmac_bus_init(const struct device *dev)
 {
+	struct dwmac_priv *p = dev->data;
 	uint32_t reg_addr, reg_val;
 	int ret;
 
@@ -81,51 +82,23 @@ int dwmac_bus_init(struct dwmac_priv *p)
 	reg_val = sys_read32(reg_addr);
 	sys_write32(reg_val | 0x03800000, reg_addr);
 
-	p->base_addr = DT_INST_REG_ADDR(0);
 	return 0;
 }
 
-#if defined(CONFIG_NOCACHE_MEMORY)
-#define __desc_mem __nocache __aligned(4)
-#else
-#error "missing memory attribute for descriptors"
-#endif
+#define DWMAC_RANDOM_MAC_PREFIX 0x00, 0x80, 0xE1
 
-/* Descriptor rings in uncached memory */
-static struct dwmac_dma_desc dwmac_tx_descs[NB_TX_DESCS] __desc_mem;
-static struct dwmac_dma_desc dwmac_rx_descs[NB_RX_DESCS] __desc_mem;
-
-void dwmac_platform_init(struct dwmac_priv *p)
-{
-	p->tx_descs = dwmac_tx_descs;
-	p->rx_descs = dwmac_rx_descs;
-
-	/* basic configuration for this platform */
-	REG_WRITE(MAC_CONF,
-		  MAC_CONF_PS |
-		  MAC_CONF_FES |
-		  MAC_CONF_DM);
-	REG_WRITE(DMA_SYSBUS_MODE,
-		  DMA_SYSBUS_MODE_AAL |
-		  DMA_SYSBUS_MODE_FB);
-
-	/* set up IRQs (still masked for now) */
-	IRQ_CONNECT(DT_INST_IRQN(0), DT_INST_IRQ(0, priority), dwmac_isr,
-		    DEVICE_DT_INST_GET(0), 0);
-	irq_enable(DT_INST_IRQN(0));
-
-	/* create MAC address */
-	gen_random_mac(p->mac_addr, 0x00, 0x80, 0xE1);
-}
-
+/* Device specific defines */
+DWMAC_DEVICE(0);
 /* Our private device instance */
 static struct dwmac_priv dwmac_instance;
+/* Our config */
+static struct tc3xx_geth_config dwmac_config = DWMAC_DT_INST_CONFIG(0);
 
 ETH_NET_DEVICE_DT_INST_DEFINE(0,
 			      dwmac_probe,
 			      NULL,
 			      &dwmac_instance,
-			      NULL,
+			      &dwmac_config,
 			      CONFIG_ETH_INIT_PRIORITY,
 			      &dwmac_api,
 			      NET_ETH_MTU);

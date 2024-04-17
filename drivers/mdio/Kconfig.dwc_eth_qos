@@ -1,0 +1,9 @@
+# Copyright (c) 2024 Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+config MDIO_DWC_ETH_QOS
+	bool "Synopsys DWC Ethernet QoS MDIO driver"
+	default y
+	depends on DT_HAS_SNPS_DWC_ETH_QOS_MDIO_ENABLED
+	help
+	  Enable Synopsys DesignWare Cores Ethernet Quality-of-Service MDIO driver.

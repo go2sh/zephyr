@@ -7,8 +7,10 @@ menuconfig ETH_DWMAC
 	bool "Synopsys DesignWare MAC driver"
 	default y
 	depends on NET_BUF_FIXED_DATA_SIZE
-	depends on (SOC_SERIES_STM32H7X && !ETH_STM32_HAL) || MMU
+	depends on (SOC_SERIES_STM32H7X && !ETH_STM32_HAL) || MMU || SOC_SERIES_TC3XX
 	depends on DT_HAS_SNPS_DESIGNWARE_ETHERNET_ENABLED
+	select NOCACHE_MEMORY if !MMU
+	select MDIO
 	help
 	  This is a driver for the Synopsys DesignWare MAC, also referred to
 	  as "DesignWare Cores Ethernet Quality-of-Service". Hardware versions
@@ -20,7 +22,6 @@ menuconfig ETH_DWMAC
 	  and MMU based platform is also provided.
 
 	  Not yet implemented:
-	  - MDIO (currently relying on default PHY config)
 	  - PTP support
 	  - VLAN support
 	  - various hardware offloads (when available)
@@ -30,6 +31,12 @@ if ETH_DWMAC
 config ETH_DWMAC_STM32H7X
 	bool
 	depends on SOC_SERIES_STM32H7X
+	select NOCACHE_MEMORY if ARCH_HAS_NOCACHE_MEMORY_SUPPORT
+	default y
+
+config ETH_DWMAC_TC3XX_GETH
+	bool
+	depends on SOC_SERIES_TC3XX
 	select NOCACHE_MEMORY if ARCH_HAS_NOCACHE_MEMORY_SUPPORT
 	default y
 
@@ -64,5 +71,13 @@ config DWMAC_NB_RX_DESCS
 	  immediate intervention from the CPU but requires more transient
 	  memory. A smaller number increases the risk of an overflow and
 	  dropped packets.
+
+config DWMAC_USE_DMA_IRQS
+	bool "Use DWMAC IP DMA interrupts per channel and direction"
+	default y if SOC_SERIES_TC3XX
+	default n
+	help
+		Use an ISR per DMA channel and direction to enable a finer
+		chose of priority for each channel.
 
 endif # ETH_DWMAC

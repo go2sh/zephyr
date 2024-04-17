@@ -1,0 +1,79 @@
+# Copyright (c) 2024, Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+description: Synopsys DesignWare Ethernet TX Queues Config
+
+compatible: "snps,designware-ethernet-tx-queues"
+
+properties:
+  snps,tx-queues-to-use:
+    type: int
+    description: number of TX queues to be used in the driver
+  snps,tx-sched-wrr:
+    type: boolean
+    description: Weighted Round Robin
+  snps,tx-sched-wfq:
+    type: boolean
+    description: Weighted Fair Queuing
+  snps,tx-sched-dwrr:
+    type: boolean
+    description: Deficit Weighted Round Robin
+  snps,tx-sched-sp:
+    type: boolean
+    description: Strict priority
+
+child-binding:
+  description: TX Queue configuration
+  properties:
+    snps,size:
+      type: int
+      description: Dedicated Fifo size
+    snps,weight:
+      type: int
+      description: TX queue weight (if using a DCB weight algorithm)
+    snps,threshold:
+      type: int
+      enum:
+        - 32
+        - 64
+        - 96
+        - 128
+        - 192
+        - 256
+        - 384
+        - 512
+    snps,cut-through:
+      type: boolean
+    snps,store-and-forward:
+      type: boolean
+    snps,dcb-algorithm:
+      type: boolean
+      description: TX queue will be working in DCB
+    snps,avb-algorithm:
+      type: boolean
+      description:
+        TX queue will be working in AVB.
+        Queue 0 is reserved for legacy traffic and so no AVB is
+        available in this queue.
+    snps,send_slope:
+      type: int
+      description: enable Low Power Interface
+    snps,idle_slope:
+      type: int
+      description: unlock on WoL
+    snps,high_credit:
+      type: int
+      description: max write outstanding req. limit
+    snps,low_credit:
+      type: int
+      description: max read outstanding req. limit
+    snps,priority:
+      type: int
+      description:
+        Bitmask of the tagged frames priorities assigned to the queue.
+        When a PFC frame is received with priorities matching the bitmask,
+        the queue is blocked from transmitting for the pause time specified
+        in the PFC frame.
+    snps,coe-unsupported:
+      type: boolean
+      description: TX checksum offload is unsupported by the TX queue.
