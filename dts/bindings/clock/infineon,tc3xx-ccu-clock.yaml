@@ -1,0 +1,18 @@
+# Copyright (c) Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+description: TC3XX CCU Clock
+
+compatible: "infineon,tc3xx-ccu-clock"
+
+include: fixed-factor-clock.yaml
+
+properties:
+  field:
+    type: array
+
+  select-field:
+    type: array
+
+  cpu-field:
+    type: array

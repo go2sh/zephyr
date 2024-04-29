@@ -1,0 +1,307 @@
+
+/ {
+	clocks {
+		fback: fback {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <DT_FREQ_M(100)>;
+			status = "okay";
+		};
+
+		fosc: fosc {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <DT_FREQ_M(20)>;
+			status = "disabled";
+		};
+
+		fsysclk: fsysclk {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <DT_FREQ_M(20)>;
+			status = "disabled";
+		};
+	};
+
+	soc {
+		scu: scu@f0036000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			reg = <0xF0036000 0x400>;
+			status = "okay";
+
+			ccu: clock_controller@f0036000 {
+				#clock-cells = <1>;
+				compatible = "infineon,tc3xx-ccu";
+				reg = <0xF0036000 0x400>;
+				clocks = <&fback>, <&fosc>, <&fsysclk>;
+				status = "okay";
+
+				sys_pll: sys_pll {
+					#clock-cells = <0>;
+					compatible = "infineon,tc3xx-pll-clock";
+					n-div = <30>;
+					p-div = <1>;
+					clocks = <&fosc>;
+					status = "okay";
+				};
+
+				peri_pll: peri_pll {
+					#clock-cells = <0>;
+					compatible = "infineon,tc3xx-pll-clock";
+					n-div = <32>;
+					p-div = <1>;
+					clocks = <&fosc>;
+					status = "okay";
+				};
+
+				fpll0: fpll0 {
+					#clock-cells = <0>;
+					compatible = "fixed-factor-clock";
+					clock-div = <2>;
+					clocks = <&sys_pll>;
+					status = "okay";
+				};
+				
+				fpll1: fpll1 {
+					#clock-cells = <0>;
+					compatible = "fixed-factor-clock";
+					clock-div = <2>;
+					clocks = <&peri_pll>;
+					status = "okay";
+				};
+
+				fpll2: fpll2 {
+					#clock-cells = <0>;
+					compatible = "fixed-factor-clock";
+					clock-mult = <10>;
+					clock-div = <32>;
+					clocks = <&peri_pll>;
+					status = "okay";
+				};
+
+				fsource0: fsource0 {
+					#clock-cells = <0>;
+					compatible = "fixed-factor-clock";
+					clock-div = <1>;
+					clocks = <&fpll0>;
+					status = "okay";
+				};
+
+				fsource1: fsource1{
+					#clock-cells = <0>;
+					compatible = "fixed-factor-clock";
+					clock-div = <2>;
+					clocks = <&fpll1>;
+					status = "okay";
+				};
+
+				fsource2: fsource2 {
+					#clock-cells = <0>;
+					compatible = "fixed-factor-clock";
+					clock-div = <1>;
+					clocks = <&fpll2>;
+					status = "okay";
+				};
+
+				fsri: fsri {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <1>;
+					#clock-cells = <0>;
+					clocks = <&fsource0>;
+					field = <0 8 4>;
+					status = "okay";
+				};
+
+				fspb: fspb {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <3>;
+					#clock-cells = <0>;
+					clocks = <&fsource0>;
+					field = <0 16 4>;
+					status = "okay";
+				};
+
+				fbbb: fbbb {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <2>;
+					#clock-cells = <0>;
+					clocks = <&fsource0>;
+					field = <0 20 4>;
+					status = "okay";
+				};
+
+				
+				ffsi: ffsi {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <3>;
+					#clock-cells = <0>;
+					clocks = <&fsri>;
+					field = <0 24 2>;
+					status = "okay";
+				};
+
+				ffsi2: ffsi2 {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <1>;
+					#clock-cells = <0>;
+					clocks = <&fsri>;
+					field = <0 26 2>;
+					status = "okay";
+				};
+
+				fgtm: fgtm {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <1>;
+					clock-mult = <2>;
+					#clock-cells = <0>;
+					clocks = <&fspb>;
+					field = <0 4 4>;
+					status = "okay";
+				};
+				
+				fstm: fstm {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <3>;
+					#clock-cells = <0>;
+					clocks = <&fsource0>;
+					field = <0 0 4>;
+					status = "okay";
+				};
+
+				fmcan: fmcan {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <2>;
+					#clock-cells = <0>;
+					clocks = <&fsource1>;
+					field = <1 0 4>;
+					select-field = <1 4 2>;
+					status = "okay";
+				};
+
+				fi2c: fi2c {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <3>;
+					#clock-cells = <0>;
+					clocks = <&fsource2>;
+					field = <1 8 4>;
+					status = "okay";
+				};
+
+				fmsc: fmsc {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <1>;
+					#clock-cells = <0>;
+					clocks = <&fsource2>;
+					field = <1 16 4>;
+					select-field = <1 20 2>;
+					status = "okay";
+				};
+
+				fqspi: fqspi {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <1>;
+					#clock-cells = <0>;
+					clocks = <&fsource2>;
+					field = <1 24 4>;
+					select-field = <1 28 2>;
+					status = "okay";
+				};
+
+				fasclinf: fasclinf {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <1>;
+					#clock-cells = <0>;
+					clocks = <&fsource2>;
+					field = <2 0 4>;
+					status = "okay";
+				};
+
+				fasclins: fasclins {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <2>;
+					#clock-cells = <0>;
+					clocks = <&fsource1>;
+					field = <2 8 4>;
+					select-field = <2 12 2>;
+					status = "okay";
+				};
+
+				feray: feray {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <2>;
+					#clock-cells = <0>;
+					clocks = <&fpll1>;
+					select-field = <2 25 1>;
+					status = "disabled";
+				};
+
+				fgeth: fgeth {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <2>;
+					#clock-cells = <0>;
+					clocks = <&fsource0>;
+					field = <5 0 4>;
+					status = "okay";
+				};
+
+				fmcanh: fmcanh {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <3>;
+					#clock-cells = <0>;
+					clocks = <&fsource0>;
+					field = <5 4 4>;
+					status = "okay";
+				};
+
+				fadas: fadas {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-div = <1>;
+					#clock-cells = <0>;
+					clocks = <&fsource0>;
+					field = <5 8 4>;
+					status = "disabled";
+				};
+
+				fcpu0: fcpu0 {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-mult = <64>;
+					clock-div = <64>;
+					#clock-cells = <0>;
+					clocks = <&fsri>;
+					cpu-field = <6 0 4>;
+					status = "okay";
+				};
+
+				fcpu1: fcpu1 {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-mult = <64>;
+					clock-div = <64>;
+					#clock-cells = <0>;
+					clocks = <&fsri>;
+					cpu-field = <7 0 4>;
+					status = "okay";
+				};
+
+				fcpu2: fcpu2 {
+					compatible = "infineon,tc3xx-ccu-clock";
+					clock-mult = <64>;
+					clock-div = <64>;
+					#clock-cells = <0>;
+					clocks = <&fsri>;
+					cpu-field = <8 0 4>;
+					status = "okay";
+				};
+
+				fadc: fadc {
+					compatible = "fixed-factor-clock";
+					clock-div = <1>;
+					#clock-cells = <0>;
+					clocks = <&fsource1>;
+					status = "okay";
+				};
+			};
+		};
+	};
+};
+
