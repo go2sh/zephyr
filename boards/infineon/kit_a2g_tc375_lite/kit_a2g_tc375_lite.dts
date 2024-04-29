@@ -18,7 +18,7 @@
 		zephyr,sram = &dsram0;
 		zephyr,itcm = &psram0;
 		zephyr,console = &uart0;
-		infineon,tc3xx-stm = &stm0;
+		infineon,system-timer = &stm0;
 	};
 
 	leds {

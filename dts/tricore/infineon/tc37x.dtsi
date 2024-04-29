@@ -11,10 +11,6 @@
 #include <infineon/tc3xx-common.dtsi>
 
 / {
-	chosen {
-		infineon,system-timer = &stm0;
-	};
-
 	cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -119,6 +115,20 @@
 			reg = <0xF0001000 256>;
 			clocks = <&fstm>;
 			interrupts = <192 1>;
+		};
+
+		stm1: timer@f0001100 {
+			compatible = "infineon,tc3xx-stm";
+			reg = <0xF0001100 256>;
+			clocks = <&fstm>;
+			interrupts = <194 1>;
+		};
+
+		stm2: timer@f0001200 {
+			compatible = "infineon,tc3xx-stm";
+			reg = <0xF0001200 256>;
+			clocks = <&fstm>;
+			interrupts = <196 1>;
 		};
 
 		pinctrl: pinctrl@f003a000 {
