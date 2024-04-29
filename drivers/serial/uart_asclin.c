@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <errno.h>
 #define DT_DRV_COMPAT infineon_asclin_uart
 
+#include "soc.h"
 #include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/devicetree.h>
+#include <zephyr/drivers/clock_control.h>
 #include <zephyr/drivers/pinctrl.h>
 #include <zephyr/drivers/uart.h>
 // #include <zephyr/spinlock.h>
@@ -75,6 +78,8 @@ struct uart_asclin_device_data {
 struct uart_asclin_device_config {
 	mm_reg_t base;
 	const struct pinctrl_dev_config *pcfg;
+	const struct device *clkctrl;
+	clock_control_subsys_t clk[2];
 };
 
 static int uart_asclin_poll_in(const struct device *dev, unsigned char *p_char)
@@ -154,30 +159,30 @@ static inline int uart_asclin_set_mode_init(const struct uart_asclin_device_conf
 		return ret;
 	}
 	sys_write32(0, config->base + ASCLIN_FRAMECON_OFFSET);
+
+	return 0;
 }
 
-static bool uart_asclin_set_baudrate(const struct uart_asclin_device_config *config, float baudrate)
+static bool uart_asclin_set_baudrate(const struct uart_asclin_device_config *config,
+				     uint32_t baudrate)
 {
 	uint32_t oversampling = 16;
 	uint32_t samplepoint = 8;
 	uint32_t medianFilter = 1;
 	uint32_t prescalar = 1;
 
-	float fOvs;
-	uint32_t d = 0, n, dBest = 1, nBest = 1;
-	float f;
+	uint32_t fpd, fovs;
+	int32_t m[2][2];
+	int32_t ai;
+	float div;
 
 	/* Set the PD frequency */
-	uint32_t fpd = 200.0e6;
+	clock_control_get_rate(config->clkctrl, config->clk[0], &fpd);
 	oversampling = oversampling > 4 ? oversampling : 4;
 	samplepoint = samplepoint > 1 ? samplepoint : 1;
-	fOvs = baudrate * oversampling;
+	fovs = baudrate * oversampling;
 
-	int32_t m[2][2];
-	float div, startDiv;
-	int32_t ai;
-
-	startDiv = div = (fOvs / fpd);
+	div = ((float)fovs / (float)fpd);
 
 	/* initialize matrix */
 	m[0][0] = m[1][1] = 1;
@@ -208,32 +213,53 @@ static bool uart_asclin_set_baudrate(const struct uart_asclin_device_config *con
 
 static int uart_asclin_init(const struct device *dev)
 {
-	const struct uart_asclin_device_config *config = dev->config;
+	const struct uart_asclin_device_config *cfg = dev->config;
 	const struct uart_asclin_device_data *data = dev->data;
+	int ret;
 
-	uint32_t clc = sys_read32(config->base + ASCLIN_CLC_OFFSET);
-	/* Enable Module */
-	sys_write32(sys_read32(config->base + ASCLIN_CLC_OFFSET) & ~ASCLIN_CLC_DISR_MSK,
-		    config->base + ASCLIN_CLC_OFFSET);
+	if (!device_is_ready(cfg->clkctrl)) {
+		return -EIO;
+	}
+	ret = clock_control_on(cfg->clkctrl, cfg->clk[0]);
+	if (ret) {
+		return ret;
+	}
 
-	if (!WAIT_FOR((sys_read32(config->base + ASCLIN_CLC_OFFSET) & ASCLIN_CLC_DISR_MSK) == 0,
-		      1000, k_busy_wait(1))) {
-		return -ETIMEDOUT;
+	if (!aurix_enable_clock(cfg->base + ASCLIN_CLC_OFFSET, 1000)) {
+		return -EIO;
 	}
 
 	/* Pin config */
-	int status = pinctrl_apply_state(config->pcfg, PINCTRL_STATE_DEFAULT);
-	if (status < 0) {
-		return status;
+	ret = pinctrl_apply_state(cfg->pcfg, PINCTRL_STATE_DEFAULT);
+	if (ret < 0) {
+		return ret;
 	}
 
-	if (uart_asclin_set_mode_init(config)) {
+	if (uart_asclin_set_mode_init(cfg)) {
 		return -ETIMEDOUT;
 	}
 	/* Input configuration */
-	// TODO: IOCR
+	uint32_t iocr = 0;
+	uint32_t i, j;
+	for (i = 0; i < cfg->pcfg->state_cnt; i++) {
+		if (cfg->pcfg->states[i].id != 0) {
+			continue;
+		}
+		for (j = 0; j < cfg->pcfg->states[i].pin_cnt; j++) {
+			if (cfg->pcfg->states[i].pins[j].type > 1) {
+				continue;
+			}
+			if (cfg->pcfg->states[i].pins[j].type == 0) {
+				iocr |= 0x7 & cfg->pcfg->states[i].pins[j].alt;
+			}
+			if (cfg->pcfg->states[i].pins[j].type == 1) {
+				iocr |= ((0x3 & cfg->pcfg->states[i].pins[j].alt) << 16) | BIT(29);
+			}
+		}
+	}
+	sys_write32(iocr, cfg->base + ASCLIN_IOCR_OFFSET);
 	/* Configuration bit timing */
-	uart_asclin_set_baudrate(config, data->uart_cfg->baudrate);
+	uart_asclin_set_baudrate(cfg, data->uart_cfg->baudrate);
 	/* Frame Configuration*/
 	sys_write32((data->uart_cfg->stop_bits << ASCLIN_FRAMECON_STOP_POS) |
 			    (1 << ASCLIN_FRAMECON_MODE_POS) |
@@ -241,21 +267,21 @@ static int uart_asclin_init(const struct device *dev)
 			     << ASCLIN_FRAMECON_PARITY_POS) |
 			    ((data->uart_cfg->parity == UART_CFG_PARITY_ODD)
 			     << ASCLIN_FRAMECON_ODD_POS),
-		    config->base + ASCLIN_FRAMECON_OFFSET);
+		    cfg->base + ASCLIN_FRAMECON_OFFSET);
 	/* Data configuration */
-	sys_write32(data->uart_cfg->data_bits + 4, config->base + ASCLIN_DATCON_OFFSET);
+	sys_write32(data->uart_cfg->data_bits + 4, cfg->base + ASCLIN_DATCON_OFFSET);
 	/* Fifo configuration */
 	sys_write32((1 << ASCLIN_FIFOCON_EN_POS) | (0 << ASCLIN_FIFOCON_FM_POS) |
 			    ((data->uart_cfg->data_bits == UART_CFG_DATA_BITS_9 ? 2 : 1)
 			     << ASCLIN_FIFOCON_W_POS),
-		    config->base + ASCLIN_TXFIFOCON_OFFSET);
+		    cfg->base + ASCLIN_TXFIFOCON_OFFSET);
 	sys_write32((1 << ASCLIN_FIFOCON_EN_POS) | (0 << ASCLIN_FIFOCON_FM_POS) |
 			    ((data->uart_cfg->data_bits == UART_CFG_DATA_BITS_9 ? 2 : 1)
 			     << ASCLIN_FIFOCON_W_POS),
-		    config->base + ASCLIN_RXFIFOCON_OFFSET);
+		    cfg->base + ASCLIN_RXFIFOCON_OFFSET);
 
 	/* Enable clock again */
-	if (uart_asclin_set_clk(config, 2)) {
+	if (uart_asclin_set_clk(cfg, 2)) {
 		return -ETIMEDOUT;
 	}
 
@@ -385,6 +411,9 @@ static const struct uart_driver_api uart_asclin_driver_api = {
 	static const struct uart_asclin_device_config uart_asclin_dev_cfg_##n = {                  \
 		.base = DT_INST_REG_ADDR(n),                                                       \
 		.pcfg = PINCTRL_DT_INST_DEV_CONFIG_GET(n),                                         \
+		.clkctrl = DEVICE_DT_GET_OR_NULL(DT_PARENT(DT_INST_CLOCKS_CTLR(n))),               \
+		.clk = {(void *)DT_NODE_CHILD_IDX(DT_INST_CLOCKS_CTLR_BY_IDX(n, 0)),               \
+			(void *)DT_NODE_CHILD_IDX(DT_INST_CLOCKS_CTLR_BY_IDX(n, 1))},              \
 		UART_TC3XX_IRQ_CONFIG_INIT(n)};                                                    \
 	DEVICE_DT_INST_DEFINE(n, uart_asclin_init, NULL, &uart_asclin_dev_data_##n,                \
 			      &uart_asclin_dev_cfg_##n, PRE_KERNEL_1, CONFIG_SERIAL_INIT_PRIORITY, \
