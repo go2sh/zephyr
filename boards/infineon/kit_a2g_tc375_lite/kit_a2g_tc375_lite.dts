@@ -24,10 +24,10 @@
 	leds {
 		compatible = "gpio-leds";
 		led0: led_0 {
-			gpios = <&p0 5 GPIO_ACTIVE_LOW>;
+			gpios = <&p00 5 GPIO_ACTIVE_LOW>;
 		};
 		led1: led_1 {
-			gpios = <&p0 6 GPIO_ACTIVE_LOW>;
+			gpios = <&p00 6 GPIO_ACTIVE_LOW>;
 		};
 	};
 
@@ -46,7 +46,7 @@
 	freeze;
 };
 
-&p0 {
+&p00 {
 	status = "okay";
 };
 
