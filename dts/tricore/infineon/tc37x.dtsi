@@ -137,11 +137,124 @@
 			#address-cells = <1>;
 			#size-cells = <1>;
 
-			p0: gpio@f003a000 {
+			p00: gpio@f003a000 {
 				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003A000 0x100>;
 				gpio-controller;
 				#gpio-cells = <2>;
-				reg = <0xF003A000 0x100>;
+				status = "disabled";
+			};
+			p01: gpio@f003a100 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003A100 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p02: gpio@f003a200 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003A200 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p10: gpio@f003aa00 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003AA00 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p11: gpio@f003ab00 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003AB00 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p12: gpio@f003ac00 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003AC00 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p13: gpio@f003ad00 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003AD00 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p14: gpio@f003ae00 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003AE00 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p15: gpio@f003af00 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003AF00 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p20: gpio@f003b400 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003B400 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p21: gpio@f003b500 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003B500 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p22: gpio@f003b600 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003B600 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p23: gpio@f003b700 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003B700 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p32: gpio@f003c000 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003C000 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p33: gpio@f003c100 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003C100 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p34: gpio@f003c200 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003C200 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
+			};
+			p40: gpio@f003c800 {
+				compatible = "infineon,tc3xx-gpio";
+				reg = <0xF003C800 0x100>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				status = "disabled";
 			};
 		};
 		
