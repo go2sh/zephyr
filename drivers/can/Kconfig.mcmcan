@@ -1,0 +1,14 @@
+# MCMCAN configuration options
+
+# Copyright (c) 2024 Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+config CAN_MCMCAN
+	bool "MCMCAN driver"
+	default y
+	depends on DT_HAS_INFINEON_MCMCAN_ENABLED
+	depends on CLOCK_CONTROL
+	select CAN_MCAN
+	select PINCTRL
+	help
+	  Enable support for mcmcan driver.

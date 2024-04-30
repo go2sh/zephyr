@@ -460,22 +460,127 @@
 			};
 		};
 
-		mcmcan0@f0200000 {
+		mcmcan0: mcmcan0@f0200000 {
 			compatible = "infineon,mcmcan";
 			#address-cells = <1>;
 			#size-cells = <1>;
 			reg = <0xF0200000 0x9000>;
 			clocks = <&fmcan>, <&fmcanh>;
-			
-			can00: can00@f0208200 {
+			status = "disabled";
+
+			can00: can@f0208200 {
 				compatible = "infineon,mcmcan-node";
 				reg = <0xF0208200 0x200>, <0xF0200000 0x8000>;
 				reg-names = "m_can", "message_ram";
-				interrupts = <364 10>, <365 11>;
+				interrupts = <TC3XX_IR_CAN0INT0_INT 10>, <TC3XX_IR_CAN0INT1_INT 11>;
 				interrupt-names = "line0", "line1";
 				bosch,mram-cfg = <0x0 32 32 32 32 0 16 16>;
 				sample-point = <875>;
 				sample-point-data = <875>;
+				bus-speed = <500000>;
+				bus-speed-data = <2000000>;
+				status = "disabled";
+			};
+			can01: can@f0208600 {
+				compatible = "infineon,mcmcan-node";
+				reg = <0xF0208600 0x200>, <0xF0200000 0x8000>;
+				reg-names = "m_can", "message_ram";
+				interrupts = <TC3XX_IR_CAN0INT2_INT 10>, <TC3XX_IR_CAN0INT3_INT 11>;
+				interrupt-names = "line0", "line1";
+				bosch,mram-cfg = <0x0 32 32 32 32 0 16 16>;
+				sample-point = <875>;
+				sample-point-data = <875>;
+				bus-speed = <500000>;
+				bus-speed-data = <2000000>;
+				status = "disabled";
+			};
+			can02: can@f0208a00 {
+				compatible = "infineon,mcmcan-node";
+				reg = <0xF0208A00 0x200>, <0xF0200000 0x8000>;
+				reg-names = "m_can", "message_ram";
+				interrupts = <TC3XX_IR_CAN0INT4_INT 10>, <TC3XX_IR_CAN0INT5_INT 11>;
+				interrupt-names = "line0", "line1";
+				bosch,mram-cfg = <0x0 32 32 32 32 0 16 16>;
+				sample-point = <875>;
+				sample-point-data = <875>;
+				bus-speed = <500000>;
+				bus-speed-data = <2000000>;
+				status = "disabled";
+			};
+			can03: can@f0208e00 {
+				compatible = "infineon,mcmcan-node";
+				reg = <0xF0208E00 0x200>, <0xF0200000 0x8000>;
+				reg-names = "m_can", "message_ram";
+				interrupts = <TC3XX_IR_CAN0INT6_INT 10>, <TC3XX_IR_CAN0INT7_INT 11>;
+				interrupt-names = "line0", "line1";
+				bosch,mram-cfg = <0x0 32 32 32 32 0 16 16>;
+				sample-point = <875>;
+				sample-point-data = <875>;
+				bus-speed = <500000>;
+				bus-speed-data = <2000000>;
+				status = "disabled";
+			};
+		};
+
+		mcmcan1: mcmcan1@f0210000 {
+			compatible = "infineon,mcmcan";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			reg = <0xF0210000 0x9000>;
+			clocks = <&fmcan>, <&fmcanh>;
+			status = "disabled";
+
+			can10: can@f0218200 {
+				compatible = "infineon,mcmcan-node";
+				reg = <0xF0218200 0x200>, <0xF0210000 0x8000>;
+				reg-names = "m_can", "message_ram";
+				interrupts = <TC3XX_IR_CAN1INT0_INT 10>, <TC3XX_IR_CAN1INT1_INT 11>;
+				interrupt-names = "line0", "line1";
+				bosch,mram-cfg = <0x0 32 32 32 32 0 16 16>;
+				sample-point = <875>;
+				sample-point-data = <875>;
+				bus-speed = <500000>;
+				bus-speed-data = <2000000>;
+				status = "disabled";
+			};
+			can11: can@f0218600 {
+				compatible = "infineon,mcmcan-node";
+				reg = <0xF0218600 0x200>, <0xF0210000 0x8000>;
+				reg-names = "m_can", "message_ram";
+				interrupts = <TC3XX_IR_CAN1INT2_INT 10>, <TC3XX_IR_CAN1INT3_INT 11>;
+				interrupt-names = "line0", "line1";
+				bosch,mram-cfg = <0x0 32 32 32 32 0 16 16>;
+				sample-point = <875>;
+				sample-point-data = <875>;
+				bus-speed = <500000>;
+				bus-speed-data = <2000000>;
+				status = "disabled";
+			};
+			can12: can@f0218a00 {
+				compatible = "infineon,mcmcan-node";
+				reg = <0xF0218A00 0x200>, <0xF0210000 0x8000>;
+				reg-names = "m_can", "message_ram";
+				interrupts = <TC3XX_IR_CAN1INT4_INT 10>, <TC3XX_IR_CAN1INT5_INT 11>;
+				interrupt-names = "line0", "line1";
+				bosch,mram-cfg = <0x0 32 32 32 32 0 16 16>;
+				sample-point = <875>;
+				sample-point-data = <875>;
+				bus-speed = <500000>;
+				bus-speed-data = <2000000>;
+				status = "disabled";
+			};
+			can13: can@f0218e00 {
+				compatible = "infineon,mcmcan-node";
+				reg = <0xF0218E00 0x200>, <0xF0210000 0x8000>;
+				reg-names = "m_can", "message_ram";
+				interrupts = <TC3XX_IR_CAN1INT6_INT 10>, <TC3XX_IR_CAN1INT7_INT 11>;
+				interrupt-names = "line0", "line1";
+				bosch,mram-cfg = <0x0 32 32 32 32 0 16 16>;
+				sample-point = <875>;
+				sample-point-data = <875>;
+				bus-speed = <500000>;
+				bus-speed-data = <2000000>;
+				status = "disabled";
 			};
 		};
 	};

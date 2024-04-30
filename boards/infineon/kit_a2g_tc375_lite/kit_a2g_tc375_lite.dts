@@ -34,6 +34,13 @@
 	aliases {
 		led0 = &led0;
     };
+
+	can_phy0: can-phy0 {
+		compatible = "infineon,tle9251v", "can-transceiver-gpio";
+		standby-gpios = <&p20 6 0>;
+		max-bitrate = <5000000>;
+		#phy-cells = <0>;
+	};
 };
 
 &fosc {
@@ -47,6 +54,10 @@
 };
 
 &p00 {
+	status = "okay";
+};
+
+&p20 {
 	status = "okay";
 };
 
@@ -76,4 +87,17 @@
 		compatible = "ethernet-phy";
 		reg = <0>;
 	};
+};
+
+&mcmcan0 {
+	status = "okay";
+};
+
+&can00 {
+	status = "okay";
+	bus-speed = <500000>;
+	bus-speed-data = <2000000>;
+	pinctrl-0 = <&can00_tx_p20_8>, <&can00_rx_p20_7>;
+	pinctrl-names = "default";
+	phys = <&can_phy0>;
 };

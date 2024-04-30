@@ -1,0 +1,11 @@
+description: Infineon MCMCAN module driver 
+
+compatible: "infineon,mcmcan"
+
+include: ["base.yaml"]
+
+properties:
+  reg:
+    required: true
+  clocks:
+    required: true

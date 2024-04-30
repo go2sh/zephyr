@@ -106,6 +106,7 @@ source "drivers/can/Kconfig.nxp_s32"
 source "drivers/can/Kconfig.tcan4x5x"
 source "drivers/can/Kconfig.mcp251xfd"
 source "drivers/can/Kconfig.xmc4xxx"
+source "drivers/can/Kconfig.mcmcan"
 
 source "drivers/can/transceiver/Kconfig"
 

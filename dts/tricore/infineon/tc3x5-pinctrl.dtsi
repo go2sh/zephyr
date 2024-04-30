@@ -863,7 +863,377 @@
 		output-enable;
 		pad-type = "fast";
 	};
-		/omit-if-no-ref/ geth_grefclk_p11_5: geth_grefclk_p11_5 {
+	/omit-if-no-ref/ can00_rx_p02_1: can00_rx_p02_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 1, A)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can00_rx_p12_0: can00_rx_p12_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(12, 0, C)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can00_rx_p20_7: can00_rx_p20_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 7, B)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can00_rx_p33_7: can00_rx_p33_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 7, E)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can00_rx_p33_12: can00_rx_p33_12 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 12, D)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can00_rx_p34_2: can00_rx_p34_2 {
+		pinmux = <TC3XX_INPUT_PINMUX(34, 2, G)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can00_tx_p02_0: can00_tx_p02_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 0, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can00_tx_p12_1: can00_tx_p12_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(12, 1, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can00_tx_p20_8: can00_tx_p20_8 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 8, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can00_tx_p33_8: can00_tx_p33_8 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 8, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can00_tx_p33_13: can00_tx_p33_13 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 13, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can00_tx_p34_1: can00_tx_p34_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(34, 1, O4)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can01_rx_p01_4: can01_rx_p01_4 {
+		pinmux = <TC3XX_INPUT_PINMUX(01, 4, C)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can01_rx_p02_10: can01_rx_p02_10 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 10, E)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can01_rx_p14_1: can01_rx_p14_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 1, B)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can01_rx_p15_3: can01_rx_p15_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(15, 3, A)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can01_rx_p33_10: can01_rx_p33_10 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 10, D)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can01_tx_p01_3: can01_tx_p01_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(01, 3, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can01_tx_p02_9: can01_tx_p02_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 9, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can01_tx_p14_0: can01_tx_p14_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 0, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can01_tx_p15_2: can01_tx_p15_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 2, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can01_tx_p33_9: can01_tx_p33_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 9, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can02_rx_p02_3: can02_rx_p02_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 3, B)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can02_rx_p10_2: can02_rx_p10_2 {
+		pinmux = <TC3XX_INPUT_PINMUX(10, 2, E)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can02_rx_p14_8: can02_rx_p14_8 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 8, D)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can02_rx_p15_1: can02_rx_p15_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(15, 1, A)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can02_rx_p32_6: can02_rx_p32_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(32, 6, C)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can02_tx_p02_2: can02_tx_p02_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 2, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can02_tx_p10_3: can02_tx_p10_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(10, 3, O6)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can02_tx_p14_10: can02_tx_p14_10 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 10, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can02_tx_p15_0: can02_tx_p15_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(15, 0, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can02_tx_p32_5: can02_tx_p32_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(32, 5, O6)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can03_rx_p00_3: can03_rx_p00_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(00, 3, A)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can03_rx_p11_10: can03_rx_p11_10 {
+		pinmux = <TC3XX_INPUT_PINMUX(11, 10, D)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can03_rx_p20_0: can03_rx_p20_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 0, C)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can03_rx_p20_9: can03_rx_p20_9 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 9, E)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can03_rx_p32_2: can03_rx_p32_2 {
+		pinmux = <TC3XX_INPUT_PINMUX(32, 2, B)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can03_tx_p00_2: can03_tx_p00_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 2, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can03_tx_p11_12: can03_tx_p11_12 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 12, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can03_tx_p20_3: can03_tx_p20_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 3, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can03_tx_p20_10: can03_tx_p20_10 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 10, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can03_tx_p32_3: can03_tx_p32_3 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(32, 3, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can10_rx_p00_1: can10_rx_p00_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(00, 1, A)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can10_rx_p13_1: can10_rx_p13_1 {
+		pinmux = <TC3XX_INPUT_PINMUX(13, 1, D)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can10_rx_p14_7: can10_rx_p14_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 7, B)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can10_rx_p23_0: can10_rx_p23_0 {
+		pinmux = <TC3XX_INPUT_PINMUX(23, 0, C)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can10_tx_p00_0: can10_tx_p00_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 0, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can10_tx_p13_0: can10_tx_p13_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(13, 0, O7)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can10_tx_p14_9: can10_tx_p14_9 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 9, O4)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can10_tx_p23_1: can10_tx_p23_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(23, 1, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can11_rx_p00_5: can11_rx_p00_5 {
+		pinmux = <TC3XX_INPUT_PINMUX(00, 5, B)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can11_rx_p02_4: can11_rx_p02_4 {
+		pinmux = <TC3XX_INPUT_PINMUX(02, 4, A)>;
+		pin-type = <0>;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can11_rx_p11_7: can11_rx_p11_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(11, 7, D)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can11_rx_p23_7: can11_rx_p23_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(23, 7, C)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can11_tx_p00_4: can11_tx_p00_4 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(00, 4, O3)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can11_tx_p02_5: can11_tx_p02_5 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(02, 5, O2)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can11_tx_p11_0: can11_tx_p11_0 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 0, O5)>;
+		output-enable;
+		pad-type = "rfast";
+	};
+	/omit-if-no-ref/ can11_tx_p23_6: can11_tx_p23_6 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(23, 6, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can12_rx_p10_8: can12_rx_p10_8 {
+		pinmux = <TC3XX_INPUT_PINMUX(10, 8, B)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can12_rx_p11_8: can12_rx_p11_8 {
+		pinmux = <TC3XX_INPUT_PINMUX(11, 8, D)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can12_rx_p20_6: can12_rx_p20_6 {
+		pinmux = <TC3XX_INPUT_PINMUX(20, 6, A)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can12_rx_p23_3: can12_rx_p23_3 {
+		pinmux = <TC3XX_INPUT_PINMUX(23, 3, C)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can12_tx_p10_7: can12_tx_p10_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(10, 7, O6)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can12_tx_p11_1: can12_tx_p11_1 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 1, O5)>;
+		output-enable;
+		pad-type = "rfast";
+	};
+	/omit-if-no-ref/ can12_tx_p20_7: can12_tx_p20_7 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(20, 7, O5)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can12_tx_p23_2: can12_tx_p23_2 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(23, 2, O5)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can13_rx_p11_13: can13_rx_p11_13 {
+		pinmux = <TC3XX_INPUT_PINMUX(11, 13, D)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can13_rx_p14_7: can13_rx_p14_7 {
+		pinmux = <TC3XX_INPUT_PINMUX(14, 7, A)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can13_rx_p22_5: can13_rx_p22_5 {
+		pinmux = <TC3XX_INPUT_PINMUX(22, 5, C)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can13_rx_p33_5: can13_rx_p33_5 {
+		pinmux = <TC3XX_INPUT_PINMUX(33, 5, B)>;
+		pin-type = <0>;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can13_tx_p11_4: can13_tx_p11_4 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(11, 4, O5)>;
+		output-enable;
+		pad-type = "rfast";
+	};
+	/omit-if-no-ref/ can13_tx_p14_6: can13_tx_p14_6 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(14, 6, O4)>;
+		output-enable;
+		pad-type = "fast";
+	};
+	/omit-if-no-ref/ can13_tx_p22_4: can13_tx_p22_4 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(22, 4, O6)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ can13_tx_p33_4: can13_tx_p33_4 {
+		pinmux = <TC3XX_OUTPUT_PINMUX(33, 4, O7)>;
+		output-enable;
+		pad-type = "slow";
+	};
+	/omit-if-no-ref/ geth_grefclk_p11_5: geth_grefclk_p11_5 {
 		pinmux = <TC3XX_INPUT_PINMUX(11, 5, A)>;
 		pin-type = <0>;
 		pad-type = "slow";
