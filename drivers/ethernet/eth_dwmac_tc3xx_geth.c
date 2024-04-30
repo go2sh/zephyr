@@ -1,3 +1,4 @@
+#include "soc.h"
 #include "zephyr/arch/common/sys_io.h"
 #include "zephyr/sys/util.h"
 #include <errno.h>
@@ -28,7 +29,8 @@ LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 struct tc3xx_geth_config {
 	const struct dwmac_config dwmac_config;
-	const struct device *clock;
+	const struct device *clkctrl;
+	clock_control_subsys_t clk;
 	const struct pinctrl_dev_config *pins;
 	uint32_t interface;
 };
@@ -38,15 +40,20 @@ int dwmac_bus_init(const struct device *dev)
 	const struct tc3xx_geth_config *config = dev->config;
 	uint32_t i, j;
 	uint32_t gpctl;
+	int ret;
+
+	if (!device_is_ready(config->clkctrl)) {
+		return -EIO;
+	}
+
+	ret = clock_control_on(config->clkctrl, config->clk);
+	if (ret) {
+		return ret;
+	}
 
 	/* Enable Module */
-	sys_write32(sys_read32(config->dwmac_config.base_addr + GETH_CLC_OFFSET) &
-			    ~GETH_CLC_DISR_MSK,
-		    config->dwmac_config.base_addr + GETH_CLC_OFFSET);
-	if (!WAIT_FOR((sys_read32(config->dwmac_config.base_addr + GETH_CLC_OFFSET) &
-		       GETH_CLC_DISS_MSK) == 0,
-		      1000, k_busy_wait(1))) {
-		return -ETIMEDOUT;
+	if (!aurix_enable_clock(config->dwmac_config.base_addr + GETH_CLC_OFFSET, 1000)) {
+		return -EIO;
 	}
 
 	/* Apply TX pin config*/
@@ -75,9 +82,9 @@ int dwmac_bus_init(const struct device *dev)
 }
 
 #define ETH_DT_INTERFACE(id) DT_CAT(INTERFACE_TYPE_, id)
-#define INTERFACE_TYPE_0 0
-#define INTERFACE_TYPE_1 4
-#define INTERFACE_TYPE_2 1
+#define INTERFACE_TYPE_0     0
+#define INTERFACE_TYPE_1     4
+#define INTERFACE_TYPE_2     1
 
 #define DWMAC_RANDOM_MAC_PREFIX 0x00, 0x03, 0x19
 
@@ -87,9 +94,10 @@ int dwmac_bus_init(const struct device *dev)
 	static struct dwmac_priv dwmac_instance##n = {};                                           \
 	static struct tc3xx_geth_config tc3xx_geth_config_##n = {                                  \
 		.dwmac_config = DWMAC_DT_INST_CONFIG(n),                                           \
-		.clock = DEVICE_DT_GET(DT_PARENT(DT_INST_CLOCKS_CTLR(n))),                         \
+		.clkctrl = DEVICE_DT_GET(DT_PARENT(DT_INST_CLOCKS_CTLR(n))),                       \
+		.clk = (void *)DT_NODE_CHILD_IDX(DT_INST_CLOCKS_CTLR(n)),                                  \
 		.pins = PINCTRL_DT_INST_DEV_CONFIG_GET(n),                                         \
-		.interface = ETH_DT_INTERFACE(DT_ENUM_IDX(DT_DRV_INST(n), phy_connection_type)),       \
+		.interface = ETH_DT_INTERFACE(DT_ENUM_IDX(DT_DRV_INST(n), phy_connection_type)),   \
 	};                                                                                         \
 	ETH_NET_DEVICE_DT_INST_DEFINE(n, dwmac_probe, NULL, &dwmac_instance##n,                    \
 				      &tc3xx_geth_config_##n, CONFIG_ETH_INIT_PRIORITY,            \
