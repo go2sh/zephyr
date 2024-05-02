@@ -143,7 +143,7 @@ static int gpio_tc3xx_port_toggle_bits(const struct device *dev, gpio_port_pins_
 	do {
 		out = *cfg->base;
 		swap = ((uint64_t)out << 32) | (out ^ pins);
-		__asm("	cmpswap.w [%1]+0, %0\n" : "+d"(swap) : "a"(cfg->base));
+		__asm("	cmpswap.w [%1]+0, %A0\n" : "+d"(swap) : "a"(cfg->base));
 	} while ((swap & 0xFFFFFFFF) != out);
 
 	return 0;

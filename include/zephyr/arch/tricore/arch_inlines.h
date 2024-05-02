@@ -15,7 +15,12 @@
 
 static ALWAYS_INLINE uint32_t arch_proc_id(void)
 {
-	return __builtin_tricore_mfcr(CPU_CORE_ID);
+	uint32_t core;
+	__asm volatile(
+		"	mfcr %0, 0xFE1C\n"
+		: "=d"(core)
+	);
+	return core;
 }
 
 static ALWAYS_INLINE _cpu_t *arch_curr_cpu(void)

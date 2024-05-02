@@ -66,6 +66,8 @@
 #define ITCM_SIZE (DT_REG_SIZE(DT_CHOSEN(zephyr_itcm)))
 #endif
 
+#define MPU_MIN_SIZE_ALIGN . = ALIGN(32);
+
 #include <zephyr/linker/linker-devnull.h>
 
 MEMORY

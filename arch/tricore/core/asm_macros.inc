@@ -10,4 +10,4 @@
         extr.u  %d14, \csa, 16, 4
         insert  %d15, %d15, %d14, 28, 4
         mov.a   \addr, %d15
-        .endmacro
+        .endm
