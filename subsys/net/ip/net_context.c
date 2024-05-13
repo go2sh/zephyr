@@ -2475,6 +2475,13 @@ static enum net_verdict net_context_raw_packet_received(
 		return NET_DROP;
 	}
 
+	if (net_context_get_family(context) == AF_PACKET 
+			&& net_sll_ptr(&context->local)->sll_protocol != ETH_P_ALL) {
+		if (ntohs(net_sll_ptr(&context->local)->sll_protocol) != pkt->ll_proto_type) {
+			return NET_DROP;
+		} 
+	}
+
 	net_context_set_iface(context, net_pkt_iface(pkt));
 	net_pkt_set_context(pkt, context);
 
