@@ -90,6 +90,25 @@
 	drive-strength = "rgmii";
 };
 
+&geth_txclk_p11_4 {
+	drive-strength = "rgmii";
+};
+&geth_txen_p11_6 {
+	drive-strength = "rgmii";
+};
+&geth_txd0_p11_3 {
+	drive-strength = "rgmii";
+};
+&geth_txd1_p11_2 {
+	drive-strength = "rgmii";
+};
+&geth_txd2_p11_1 {
+	drive-strength = "rgmii";
+};
+&geth_txd3_p11_0 {
+	drive-strength = "rgmii";
+};
+
 &eth0 {
 	status = "okay";
 	pinctrl-0 = <&geth_grefclk_p11_5>,
