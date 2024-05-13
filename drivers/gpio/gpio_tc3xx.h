@@ -9,6 +9,7 @@
 #define ZEPHYR_DRIVERS_GPIO_GPIO_TC3XX_H_
 
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/sys/sys_io.h>
 
 #define TC3XX_OUT_OFFSET  0x0
 #define TC3XX_OMR_OFFSET  0x4
@@ -28,7 +29,7 @@
 
 struct gpio_tc3xx_config {
 	struct gpio_driver_config common;
-	uint32_t *base;
+	mm_reg_t base;
 };
 
 struct gpio_tc3xx_data {

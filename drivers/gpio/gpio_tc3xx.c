@@ -19,7 +19,7 @@
 /**
  * @brief Common gpio flags to custom flags
  */
-static int gpio_tc3xx_flags_to_conf(gpio_flags_t flags, uint32_t *iocr, uint32_t *out)
+static int gpio_tc3xx_flags_to_iocr(gpio_flags_t flags, uint32_t *iocr)
 {
 	bool is_input = flags & GPIO_INPUT;
 	bool is_output = flags & GPIO_OUTPUT;
@@ -53,13 +53,6 @@ static int gpio_tc3xx_flags_to_conf(gpio_flags_t flags, uint32_t *iocr, uint32_t
 			*iocr = TC3XX_GPIO_MODE_OUTPUT_OPEN_DRAIN;
 		} else {
 			*iocr = TC3XX_GPIO_MODE_OUTPUT_PUSH_PULL;
-		}
-
-		if (flags & GPIO_OUTPUT_INIT_LOW) {
-			*out = 0;
-		}
-		if (flags & GPIO_OUTPUT_INIT_HIGH) {
-			*out = 1;
 		}
 	}
 
@@ -95,7 +88,7 @@ static int gpio_tc3xx_port_get_raw(const struct device *dev, uint32_t *value)
 {
 	const struct gpio_tc3xx_config *cfg = dev->config;
 
-	*value = *(cfg->base + TC3XX_IN_OFFSET / 4);
+	*value = sys_read32(cfg->base + TC3XX_IN_OFFSET);
 
 	return 0;
 }
@@ -111,7 +104,7 @@ static int gpio_tc3xx_port_set_masked_raw(const struct device *dev, gpio_port_pi
 	set = (mask & value);
 	clear = (mask & ~value);
 
-	*(cfg->base + TC3XX_OMR_OFFSET / 4) = (clear << 16) | set;
+	sys_write32((clear << 16) | set, cfg->base + TC3XX_OMR_OFFSET);
 
 	return 0;
 }
@@ -120,7 +113,7 @@ static int gpio_tc3xx_port_set_bits_raw(const struct device *dev, gpio_port_pins
 {
 	const struct gpio_tc3xx_config *cfg = dev->config;
 
-	*(cfg->base + TC3XX_OMR_OFFSET / 4) = (0xFFFF & pins);
+	sys_write32(0xFFFF & pins, cfg->base + TC3XX_OMR_OFFSET);
 
 	return 0;
 }
@@ -129,7 +122,7 @@ static int gpio_tc3xx_port_clear_bits_raw(const struct device *dev, gpio_port_pi
 {
 	const struct gpio_tc3xx_config *cfg = dev->config;
 
-	*(cfg->base + TC3XX_OMR_OFFSET / 4) = ((0xFFFF & pins) << 16);
+	sys_write32((0xFFFF & pins) << 16, cfg->base + TC3XX_OMR_OFFSET);
 
 	return 0;
 }
@@ -141,9 +134,9 @@ static int gpio_tc3xx_port_toggle_bits(const struct device *dev, gpio_port_pins_
 	uint64_t swap;
 
 	do {
-		out = *cfg->base;
+		out = sys_read32(cfg->base + TC3XX_OUT_OFFSET);
 		swap = ((uint64_t)out << 32) | (out ^ pins);
-		__asm("	cmpswap.w [%1]+0, %A0\n" : "+d"(swap) : "a"(cfg->base));
+		__asm("	cmpswap.w [%1]+0, %A0\n" : "+d"(swap) : "a"((void *)cfg->base));
 	} while ((swap & 0xFFFFFFFF) != out);
 
 	return 0;
@@ -156,13 +149,13 @@ static int gpio_tc3xx_config(const struct device *dev, gpio_pin_t pin, gpio_flag
 {
 	const struct gpio_tc3xx_config *cfg = dev->config;
 	int err;
-	uint32_t iocr;
+	uint32_t iocr = 0;
 	uint32_t out;
 
 	/* figure out if we can map the requested GPIO
 	 * configuration
 	 */
-	err = gpio_tc3xx_flags_to_conf(flags, &iocr, &out);
+	err = gpio_tc3xx_flags_to_iocr(flags, &iocr);
 	if (err != 0) {
 		return err;
 	}
@@ -203,18 +196,12 @@ static int gpio_tc3xx_get_config(const struct device *dev, gpio_pin_t pin, gpio_
 static int gpio_tc3xx_pin_interrupt_configure(const struct device *dev, gpio_pin_t pin,
 					      enum gpio_int_mode mode, enum gpio_int_trig trig)
 {
-	const struct gpio_tc3xx_config *cfg = dev->config;
-	struct gpio_tc3xx_data *data = dev->data;
-
 	return -ENOSYS;
 }
 
 static int gpio_tc3xx_manage_callback(const struct device *dev, struct gpio_callback *callback,
 				      bool set)
 {
-	const struct gpio_tc3xx_config *cfg = dev->config;
-	struct gpio_tc3xx_data *data = dev->data;
-
 	return -ENOSYS;
 }
 
@@ -244,9 +231,6 @@ static const struct gpio_driver_api gpio_tc3xx_driver = {
  */
 static int gpio_tc3xx_init(const struct device *dev)
 {
-	struct gpio_tc3xx_data *data = dev->data;
-	int ret;
-
 	return 0;
 }
 
@@ -256,7 +240,7 @@ static int gpio_tc3xx_init(const struct device *dev)
 			{                                                                          \
 				.port_pin_mask = GPIO_PORT_PIN_MASK_FROM_DT_INST(n),               \
 			},                                                                         \
-		.base = (uint32_t *)DT_INST_REG_ADDR(n),                                           \
+		.base = DT_INST_REG_ADDR(n),                                                       \
 	};                                                                                         \
                                                                                                    \
 	static struct gpio_tc3xx_data gpio_tc3xx_data_##n = {};                                    \
