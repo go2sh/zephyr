@@ -71,7 +71,7 @@ static void pinctrl_configure_pin(const pinctrl_soc_pin_t *pin)
 		iocr = (pin->pull_up << 0) | (pin->pull_down << 1);
 	}
 	atomic_ldmst_pdr(PORT_BASE(pin->port) + TC3XX_PDR_OFFSET + (pin->pin / 8) * 4,
-			 pin->pin & 0x7, (pin->pad_level_sel << 2) | (pin->pad_driver_mode));
+			 (pin->pin & 0x7) * 4, (pin->pad_level_sel << 2) | (pin->pad_driver_mode));
 	atomic_ldmst_iocr(PORT_BASE(pin->port) + TC3XX_IOCR_OFFSET + (pin->pin / 4) * 4,
 			  (pin->pin & 0x3) * 8 + 3, iocr);
 	atomic_ldmst_bit(PORT_BASE(pin->port) + TC3XX_PCSR_OFFSET, pin->pin, pin->output_select);
