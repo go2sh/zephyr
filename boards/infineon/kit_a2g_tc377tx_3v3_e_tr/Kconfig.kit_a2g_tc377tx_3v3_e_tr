@@ -1,0 +1,6 @@
+# Copyright 2024 Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_KIT_A2G_TC377TX_3V3_E_TR
+	bool "Infineon TC377TX TriBoard with Expansion Header"
+	select SOC_TC377TX

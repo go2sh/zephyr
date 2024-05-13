@@ -1,0 +1,136 @@
+/*
+ * Copyright (c) 2024 Infineon Technologies AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <infineon/tc377tx.dtsi>
+
+/ {
+	model = "Infineon TC377TX TriBoard";
+	compatible = "infineon,kit_a2g_tc377tx_3v3_e_tr_3v3_e_tr",
+	             "infineon,tc377tc",
+	             "infineon,tc3xx";
+
+	chosen {
+		zephyr,flash = &flash0;
+		zephyr,sram = &dsram0;
+		zephyr,itcm = &psram0;
+		zephyr,console = &uart0;
+		infineon,system-timer = &stm0;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		led0: led_0 {
+			gpios = <&p00 5 GPIO_ACTIVE_LOW>;
+		};
+		led1: led_1 {
+			gpios = <&p00 6 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	aliases {
+		led0 = &led0;
+	};
+
+	can_phy0: can-phy0 {
+		compatible = "infineon,tle9251v", "can-transceiver-gpio";
+		standby-gpios = <&p20 6 0>;
+		max-bitrate = <5000000>;
+		#phy-cells = <0>;
+	};
+};
+
+&fosc {
+	clock-frequency = <DT_FREQ_M(20)>;
+	status = "okay";
+};
+
+&stm0 {
+	status = "okay";
+	freeze;
+};
+
+&p00 {
+	status = "okay";
+};
+
+&p20 {
+	status = "okay";
+};
+
+&uart0 {
+	status = "okay";
+	pinctrl-0 = <&asclin0_tx_p14_0>, <&asclin0_rx_p14_1>;
+	pinctrl-names = "default";
+};
+
+&geth_grefclk_p11_5 {
+	drive-strength = "rgmii";
+};
+&geth_rxclk_p11_12 {
+	drive-strength = "rgmii";
+};
+&geth_rxdv_p11_11 {
+	drive-strength = "rgmii";
+};
+&geth_rxd0_p11_10 {
+	drive-strength = "rgmii";
+};
+&geth_rxd1_p11_9 {
+	drive-strength = "rgmii";
+};
+&geth_rxd2_p11_8 {
+	drive-strength = "rgmii";
+};
+&geth_rxd3_p11_7 {
+	drive-strength = "rgmii";
+};
+
+&eth0 {
+	status = "okay";
+	pinctrl-0 = <&geth_grefclk_p11_5>,
+				<&geth_rxclk_p11_12>,
+	            <&geth_rxdv_p11_11>,
+	            <&geth_rxd0_p11_10>,
+	            <&geth_rxd1_p11_9>,
+	            <&geth_rxd2_p11_8>,
+	            <&geth_rxd3_p11_7>,
+				<&geth_txclk_p11_4>,
+	            <&geth_txen_p11_6>,
+	            <&geth_txd0_p11_3>,
+	            <&geth_txd1_p11_2>,
+				<&geth_txd2_p11_1>,
+	            <&geth_txd3_p11_0>;
+	pinctrl-names = "default";
+	phy-connection-type = "rgmii";
+	phy-handle = <&phy>;
+};
+
+&mdio0 {
+	status = "okay";
+
+	pinctrl-0 = <&geth_mdc_p12_0>, <&geth_mdio_p12_1>;
+	pinctrl-names = "default";
+
+	phy: ethernet-phy@1 {
+		compatible = "ethernet-phy";
+		reg = <1>;
+	};
+};
+
+&mcmcan0 {
+	status = "okay";
+};
+
+&can00 {
+	status = "okay";
+	bus-speed = <500000>;
+	bus-speed-data = <2000000>;
+	pinctrl-0 = <&can00_tx_p20_8>, <&can00_rx_p20_7>;
+	pinctrl-names = "default";
+	phys = <&can_phy0>;
+};

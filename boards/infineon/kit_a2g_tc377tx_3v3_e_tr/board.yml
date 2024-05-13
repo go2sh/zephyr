@@ -1,0 +1,5 @@
+board:
+  name: kit_a2g_tc377tx_3v3_e_tr
+  vendor: infineon
+  socs:
+    - name: tc377tx
