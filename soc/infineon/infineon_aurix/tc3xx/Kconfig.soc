@@ -15,5 +15,10 @@ config SOC_TC375TP
 	bool
 	select SOC_SERIES_TC3XX
 
+config SOC_TC377TX
+	bool
+	select SOC_SERIES_TC3XX
+
 config SOC
 	default "tc375tp" if SOC_TC375TP
+	default "tc375tx" if SOC_TC377TX

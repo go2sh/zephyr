@@ -1,0 +1,13 @@
+/*
+ * Copyright (c) 2024 Infineon Technologies AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <mem.h>
+#include <infineon/tc37x_ext.dtsi>
+#include <infineon/tc3x7_ext-pinctrl.dtsi>
+
+/ {
+
+};

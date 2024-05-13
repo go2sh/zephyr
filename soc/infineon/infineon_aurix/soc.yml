@@ -8,3 +8,8 @@ family:
       - name: tc162
       - name: tc162
       - name: tc162
+    - name: tc377tx
+      cpuclusters:
+      - name: tc162
+      - name: tc162
+      - name: tc162
