@@ -22,9 +22,9 @@ LISTIFY(8, TRAP_FUNC, ())
 #define VECTOR_FUNC(prio, _)                                                                       \
 	void __attribute((naked, weak, section(".vectors.irq"))) __irq_vector_tc0_##prio()         \
 	{                                                                                          \
-		__asm volatile("   .p2align 5\n");                                                 \
-		__asm volatile("   svlcx\n");                                                      \
-		__asm volatile("   j _isr_wrapper\n"                                               \
+		__asm volatile("   .p2align 5\n"                                                   \
+			       "   svlcx\n"                                                        \
+			       "   j _isr_wrapper\n"                                               \
 			       "   rslcx\n"                                                        \
 			       "   rfe\n");                                                        \
 	}
