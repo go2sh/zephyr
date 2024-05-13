@@ -172,7 +172,7 @@ static int gpio_tc3xx_config(const struct device *dev, gpio_pin_t pin, gpio_flag
 	      "	ldmst [%2]+0, %%e14\n"
 	      :
 	      : "d"(iocr), "d"((pin & 0x3) * 8 + 3),
-		"a"(cfg->base + TC3XX_IOCR_OFFSET / 4 + (pin >> 2))
+          "a"(cfg->base + TC3XX_IOCR_OFFSET + (pin >> 2)*4)
 	      : "e14");
 
 	return 0;
