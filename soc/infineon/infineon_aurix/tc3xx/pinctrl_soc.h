@@ -38,18 +38,23 @@ typedef struct tc3xx_pinctrl pinctrl_soc_pin_t;
 			IS_EQ(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), drive_strength), 1),   \
 			(2), (3))))
 #define FAST_DRIVE_MODE(node, pr, idx)                                                             \
-	COND_CODE_1(IS_EQ(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), drive_strength), 0),       \
-		    (DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), slew_rate)), (2))
+	COND_CODE_1(                                                                               \
+		IS_EQ(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), drive_strength), 0),           \
+		(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), slew_rate)),                        \
+		(COND_CODE_1(                                                                      \
+			IS_EQ(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), drive_strength), 1),   \
+			(2), (3))))
 
-#define SLOW_DRIVE_MODE(node, pr, idx) DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), slew_rate)
+#define SLOW_DRIVE_MODE(node, pr, idx)                                                             \
+	COND_CODE_1(IS_EQ(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), drive_strength), 1),       \
+		    (DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), slew_rate)), (3))
 
 #define PAD_DRIVE_MODE(node, pr, idx)                                                              \
 	COND_CODE_1(                                                                               \
 		IS_EQ(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), pad_type), 0),                 \
 		(RFAST_DRIVE_MODE(node, pr, idx)),                                                 \
-		(COND_CODE_1(                                                                      \
-			IS_EQ(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), drive_strength), 0),   \
-			(FAST_DRIVE_MODE(node, pr, idx)), (SLOW_DRIVE_MODE(node, pr, idx)))))
+		(COND_CODE_1(IS_EQ(DT_ENUM_IDX(DT_PHANDLE_BY_IDX(node, pr, idx), pad_type), 1),    \
+			     (FAST_DRIVE_MODE(node, pr, idx)), (SLOW_DRIVE_MODE(node, pr, idx)))))
 
 #define Z_PINCTRL_STATE_PIN_INIT(node, pr, idx)                                                    \
 	{.pin = DT_PROP_BY_PHANDLE_IDX(node, pr, idx, pinmux) & 0xF,                               \
