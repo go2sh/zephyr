@@ -35,7 +35,7 @@
 #define RX_THREAD_STACK_SIZE 1024
 
 #if CONFIG_MMU
-#if (CONFIG_DCACHE_LINE_SIZE+0 == 0)
+#if (CONFIG_DCACHE_LINE_SIZE + 0 == 0)
 #error "CONFIG_DCACHE_LINE_SIZE must be configured to a non-zero value"
 #endif
 #define __desc_mem __aligned(CONFIG_DCACHE_LINE_SIZE)
@@ -63,7 +63,7 @@ struct dwmac_dma_ch {
 	uintptr_t *descs_phys;
 #endif
 	uint32_t head, tail;
-	sys_slist_t bufs;
+	sys_slist_t pkts;
 	struct net_pkt *packet;
 };
 
@@ -146,7 +146,9 @@ struct dwmac_config {
 /* DT Handling */
 #define DWMAC_RX_QUEUE_CONFIG(n)                                                                   \
 	{                                                                                          \
-		.size = DT_PROP_OR(n, snps_size, 0), .priority = DT_PROP_OR(n, snps_priority, 0),  \
+		.size = DT_PROP_OR(n, snps_size, 0),  \
+		.priority = DT_PROP_OR(n, snps_priority, 0),  \
+		.sf = COND_CODE_1(DT_PROP(n, snps_cut_through), (0), (1)), \
 		.av_queue = DT_PROP_OR(n, snps_avb_algorithm, 0)                                   \
 	}
 
@@ -206,6 +208,8 @@ struct dwmac_config {
 		.base_addr = DT_INST_REG_ADDR(n), .irq = DT_INST_IRQ_BY_NAME(n, common, irq),      \
 		.init_config = dwmac_init_config_##n,                                              \
 		.phy_dev = DEVICE_DT_GET(DT_INST_PHANDLE(n, phy_handle)),                          \
+		COND_CODE_1(CONFIG_PTP_CLOCK,                                                      \
+			    (.ptp_clock = DEVICE_DT_GET(DT_INST_PHANDLE(n, ptp_clock)), ), ())     \
 			.platform = DEVICE_DT_GET(DT_INST_PARENT(n)),                              \
 		.rx_channel_to_use = DT_INST_PROP(n, snps_rx_channel_to_use),                      \
 		.aal = DT_INST_PROP(n, snps_address_aligned_burst),                                \

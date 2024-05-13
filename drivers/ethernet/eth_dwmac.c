@@ -36,13 +36,12 @@ LOG_MODULE_REGISTER(dwmac_core, CONFIG_ETHERNET_LOG_LEVEL);
  * to its refcount byte placement, so we take the easy way out for now.
  */
 #ifdef CONFIG_NET_BUF_VARIABLE_DATA_SIZE
-BUILD_ASSERT(sizeof(void*) == 4, "Size does not match bus width");
+BUILD_ASSERT(sizeof(void *) == 4, "Size does not match bus width");
 #define RX_FRAG_SIZE NET_ETH_MAX_FRAME_SIZE
 #else
 /* size of pre-allocated packet fragments */
 #define RX_FRAG_SIZE CONFIG_NET_BUF_DATA_SIZE
 #endif
-
 
 /*
  * Grace period to wait for TX descriptor/fragment availability.
@@ -102,13 +101,44 @@ static inline uint32_t phys_lo32(void *addr)
 	return lo32((uintptr_t)addr);
 }
 
+static struct k_spinlock net_pkt_slist_lock;
+
+void net_pkt_slist_put(sys_slist_t *list, struct net_pkt *pkt)
+{
+	k_spinlock_key_t key;
+
+	__ASSERT_NO_MSG(list);
+	__ASSERT_NO_MSG(pkt);
+
+	key = k_spin_lock(&net_pkt_slist_lock);
+	sys_slist_append(list, &pkt->next);
+	k_spin_unlock(&net_pkt_slist_lock, key);
+}
+
+struct net_pkt *net_pkt_slist_get(sys_slist_t *list)
+{
+	sys_snode_t *node;
+	struct net_pkt *pkt;
+	k_spinlock_key_t key;
+
+	__ASSERT_NO_MSG(list);
+
+	key = k_spin_lock(&net_pkt_slist_lock);
+	node = sys_slist_get(list);
+	k_spin_unlock(&net_pkt_slist_lock, key);
+
+	pkt = SYS_SLIST_CONTAINER(node, pkt, next);
+
+	return pkt;
+}
+
 static void dwmac_mtl_txq_init(const struct device *dev, uint8_t queue,
 			       const struct dwmac_tx_queue *qcfg)
 {
 	const struct dwmac_config *cfg = dev->config;
 
 	REG_WRITE(MTL_TXQn_OPERATION_MODE(queue),
-		  (qcfg->size / 256 << MTL_TXQn_OPERATION_MODE_TQS_POS) |
+		  ((qcfg->size + 255) / 256 << MTL_TXQn_OPERATION_MODE_TQS_POS) |
 			  (qcfg->sf ? MTL_TXQn_OPERATION_MODE_TSF
 				    : (qcfg->threshold << MTL_TXQn_OPERATION_MODE_TTC_POS)) |
 			  MTL_TXQn_OPERATION_MODE_TXQEN);
@@ -221,6 +251,8 @@ static void dwmac_mac_init(const struct device *dev)
 				    (p->feature0 & MAC_HW_FEATURE0_RXCOESEL ? MAC_CONF_IPC : 0) |
 				    MAC_CONF_CST | MAC_CONF_ACS);
 
+	REG_WRITE(MAC_PKT_FILTER, REG_READ(MAC_PKT_FILTER) | MAC_PKT_FILTER_PM);
+
 #if CONFIG_NET_VLAN
 	REG_WRITE(MAC_VLAN_TAG)
 #endif
@@ -293,7 +325,7 @@ static int dwmac_send(const struct device *dev, struct net_pkt *pkt)
 
 	/* map packet fragments */
 	d_idx = p->tx_ch[dma_ch].tail;
-	net_pkt_frag_ref(pkt->frags);
+	net_pkt_ref(pkt);
 	frag = pkt->frags;
 	do {
 		LOG_DBG("desc sem/tail=%d/%d", k_sem_count_get(&p->tx_ch[dma_ch].desc_used),
@@ -334,8 +366,8 @@ static int dwmac_send(const struct device *dev, struct net_pkt *pkt)
 
 	/* update the descriptor index tail */
 	p->tx_ch[dma_ch].tail = d_idx;
-	/* Store the fragment */
-	net_buf_slist_put(&p->tx_ch[dma_ch].bufs, pkt->frags);
+	/* Store the packet */
+	net_pkt_slist_put(&p->tx_ch[dma_ch].pkts, pkt);
 
 	/* lastly notify the hardware */
 	REG_WRITE(DMA_CHn_TXDESC_TAIL_PTR(dma_ch), TXDESC_PHYS_L(dma_ch, d_idx));
@@ -343,7 +375,7 @@ static int dwmac_send(const struct device *dev, struct net_pkt *pkt)
 	return 0;
 
 abort:
-	net_pkt_frag_unref(pkt->frags);
+	net_pkt_unref(pkt);
 	for (; frag_count > 0; frag_count--) {
 		k_sem_give(&p->tx_ch[dma_ch].desc_used);
 	}
@@ -355,7 +387,7 @@ static void dwmac_tx_release(struct dwmac_priv *p, uint32_t dma_ch)
 {
 	unsigned int d_idx;
 	struct dwmac_dma_desc *d;
-	struct net_buf *frag;
+	struct net_pkt *pkt;
 	uint32_t des3_val;
 
 	for (d_idx = p->tx_ch[dma_ch].head; d_idx != p->tx_ch[dma_ch].tail;
@@ -377,13 +409,14 @@ static void dwmac_tx_release(struct dwmac_priv *p, uint32_t dma_ch)
 
 		/* last packet descriptor: */
 		if (des3_val & TDES3_LD) {
-			/* release corresponding fragments */
-			net_pkt_frag_unref(net_buf_slist_get(&p->tx_ch[dma_ch].bufs));
 			/* log any errors */
 			if (des3_val & TDES3_ES) {
 				LOG_ERR("tx error (DES3 = 0x%08x)", des3_val);
 				eth_stats_update_errors_tx(p->iface);
 			}
+			pkt = net_pkt_slist_get(&p->tx_ch[dma_ch].pkts);
+			/* release packet ref */
+			net_pkt_unref(pkt);
 		}
 	}
 	p->tx_ch[dma_ch].head = d_idx;
@@ -420,11 +453,6 @@ static struct net_pkt *dwmac_receive(struct dwmac_priv *p, uint32_t dma_ch, stru
 			break;
 		}
 
-		/* we ignore those for now */
-		if (des3_val & RDES3_CTXT) {
-			continue;
-		}
-
 		/* a packet's first descriptor: */
 		if (des3_val & RDES3_FD) {
 			__ASSERT_NO_MSG(pkt == NULL);
@@ -436,34 +464,54 @@ static struct net_pkt *dwmac_receive(struct dwmac_priv *p, uint32_t dma_ch, stru
 		}
 
 		/* retrieve current fragment */
-		frag = net_buf_slist_get(&p->rx_ch[dma_ch].bufs);
+		frag = net_buf_slist_get(&p->rx_ch[dma_ch].pkts);
+
+		/* Check for valid packet */
 		if (!pkt) {
 			net_buf_unref(frag);
 			LOG_ERR("no rx_pkt: skipping desc %d", d_idx);
 			continue;
 		}
 
-		net_buf_add(frag, FIELD_GET(RDES3_PL, des3_val) - net_pkt_get_len(pkt));
-		net_pkt_frag_add(pkt, frag);
+		/* Check for descriptor error */
+		if ((des3_val & (RDES3_CTXT | RDES3_FD)) == (RDES3_CTXT | RDES3_FD)) {
+			net_buf_unref(frag);
+			LOG_ERR("error descriptor seen. skipping desc %d", d_idx);
+			continue;
+		}
 
-		/* last descriptor: */
-		if (des3_val & RDES3_LD) {
-			/* submit packet if no errors */
-			if (!(des3_val & RDES3_ES)) {
-				LOG_DBG("pkt[%d] len/frags=%zd/%d", dma_ch, net_pkt_get_len(pkt),
-					net_pkt_get_nbfrags(pkt));
-				if ((ret = net_recv_data(p->iface, pkt) < 0)) {
-					LOG_ERR("Failed to receive packet: %d", ret);
-					net_pkt_unref(pkt);
-				}
-			} else {
-				LOG_ERR("rx error (DES3 = 0x%08x)", des3_val);
-				eth_stats_update_errors_rx(p->iface);
+		/* Handle buffer fragment */
+		if (des3_val & RDES3_CTXT) {
+			net_buf_unref(frag);
+		} else {
+			net_buf_add(frag, FIELD_GET(RDES3_PL, des3_val) - net_pkt_get_len(pkt));
+			net_pkt_frag_add(pkt, frag);
+		}
+
+		/* Packet reception error */
+		if ((des3_val & (RDES3_ES | RDES3_LD)) == (RDES3_ES | RDES3_LD)) {
+			LOG_ERR("rx error (DES3 = 0x%08x)", des3_val);
+			eth_stats_update_errors_rx(p->iface);
+			net_pkt_unref(pkt);
+			pkt = NULL;
+			continue;
+		}
+
+		if ((des3_val & RDES3_CTXT) |
+		    ((des3_val & RDES3_LD) &&
+		     (!CONFIG_NET_PKT_TIMESTAMP || !(d->des1 & RDES1_TSA)))) {
+			LOG_DBG("pkt[%d] len/frags=%zd/%d", dma_ch, net_pkt_get_len(pkt),
+				net_pkt_get_nbfrags(pkt));
+			ret = net_recv_data(p->iface, pkt);
+			if ((ret < 0)) {
+				LOG_ERR("Failed to receive packet: %d", ret);
 				net_pkt_unref(pkt);
 			}
 			pkt = NULL;
+			continue;
 		}
 	}
+
 	p->rx_ch[dma_ch].head = d_idx;
 	return pkt;
 }
@@ -490,13 +538,14 @@ static void dwmac_fill_rx_desc(const struct device *dev, uint32_t dma_ch)
 		frag = net_pkt_get_reserve_rx_data(RX_FRAG_SIZE, K_FOREVER);
 		if (!frag) {
 			LOG_ERR("net_pkt_get_reserve_rx_data() returned NULL");
+			k_sem_give(&p->rx_ch[dma_ch].desc_used);
 			break;
 		}
 
 		LOG_DBG("new frag[%d] at %p", d_idx, frag->data);
 		__ASSERT(frag->size == RX_FRAG_SIZE, "");
 		sys_cache_data_invd_range(frag->data, frag->size);
-		net_buf_slist_put(&p->rx_ch[dma_ch].bufs, frag);
+		net_buf_slist_put(&p->rx_ch[dma_ch].pkts, frag);
 
 		/* all is good: initialize the descriptor */
 		d->des0 = phys_lo32(frag->data);
@@ -710,6 +759,10 @@ static int dwmac_start(const struct device *dev)
 	struct dwmac_priv *p = dev->data;
 	uint8_t ch;
 
+	if (!device_is_ready(dev)) {
+		return -EIO;
+	}
+
 	for (ch = 0; ch < cfg->rx_channel_to_use; ch++) {
 		dwmac_fill_rx_desc(dev, ch);
 	}
@@ -842,7 +895,7 @@ int dwmac_probe(const struct device *dev)
 		       p->tx_ch[dma_ch].desc_count * sizeof(struct dwmac_dma_desc));
 		k_sem_init(&p->tx_ch[dma_ch].desc_used, p->tx_ch[dma_ch].desc_count - 1,
 			   p->tx_ch[dma_ch].desc_count - 1);
-		sys_slist_init(&p->tx_ch[dma_ch].bufs);
+		sys_slist_init(&p->tx_ch[dma_ch].pkts);
 	}
 
 	for (dma_ch = 0; dma_ch < cfg->rx_channel_to_use; dma_ch++) {
@@ -857,8 +910,8 @@ int dwmac_probe(const struct device *dev)
 		       p->rx_ch[dma_ch].desc_count * sizeof(struct dwmac_dma_desc));
 		k_sem_init(&p->rx_ch[dma_ch].desc_used, p->rx_ch[dma_ch].desc_count - 1,
 			   p->rx_ch[dma_ch].desc_count - 1);
-		sys_slist_init(&p->rx_ch[dma_ch].bufs);
-		}
+		sys_slist_init(&p->rx_ch[dma_ch].pkts);
+	}
 
 	cfg->init_config();
 
