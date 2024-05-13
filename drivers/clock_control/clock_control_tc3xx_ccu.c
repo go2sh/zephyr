@@ -222,11 +222,7 @@ static enum clock_control_status clock_control_tc3xx_ccu_get_status(const struct
 static int clock_control_tc3xx_ccu_get_rate(const struct device *dev, clock_control_subsys_t sys,
 					    uint32_t *rate)
 {
-	const struct clock_control_tc3xx_ccu_config *cfg = dev->config;
-	uint32_t clock_id = (uint32_t)sys;
-	uint32_t div;
-
-	switch (clock_id) {
+	switch ((uintptr_t)sys) {
 #define CCU_GET_RATE_CASE(n)                                                                       \
 	case DT_NODE_CHILD_IDX(n):                                                                 \
 		if (!DT_NODE_HAS_STATUS(n, okay)) {                                                \
@@ -249,9 +245,6 @@ static int clock_control_tc3xx_ccu_get_rate(const struct device *dev, clock_cont
 
 static int clock_control_tc3xx_ccu_init(const struct device *dev)
 {
-	const struct clock_control_tc3xx_ccu_config *cfg = dev->config;
-	volatile uint32_t *ccucon;
-	uint32_t ccucon0;
 	int ret;
 
 	/* Select backup clock und set STM freq to back-up clock */
