@@ -320,7 +320,7 @@ static int dwmac_send(const struct device *dev, struct net_pkt *pkt)
 	LOG_DBG("pkt len/frags=%d/%d", pkt_len, net_pkt_get_nbfrags(pkt));
 
 	/* initial flag values */
-	des2_flags = 0;
+	des2_flags = (CONFIG_NET_PKT_TIMESTAMP && pkt->ptp_pkt ? (TDES2_TTSE) : 0);
 	des3_flags = TDES3_FD | TDES3_OWN;
 
 	/* map packet fragments */
@@ -415,6 +415,13 @@ static void dwmac_tx_release(struct dwmac_priv *p, uint32_t dma_ch)
 				eth_stats_update_errors_tx(p->iface);
 			}
 			pkt = net_pkt_slist_get(&p->tx_ch[dma_ch].pkts);
+#if CONFIG_NET_PKT_TIMESTAMP
+			if (des3_val & TDES3_TTSS) {
+				pkt->timestamp.nanosecond = d->des0;
+				pkt->timestamp._sec.low = d->des1;
+				net_if_add_tx_timestamp(pkt);
+			}
+#endif
 			/* release packet ref */
 			net_pkt_unref(pkt);
 		}
@@ -487,6 +494,14 @@ static struct net_pkt *dwmac_receive(struct dwmac_priv *p, uint32_t dma_ch, stru
 			net_buf_add(frag, FIELD_GET(RDES3_PL, des3_val) - net_pkt_get_len(pkt));
 			net_pkt_frag_add(pkt, frag);
 		}
+
+#if defined(CONFIG_NET_PKT_TIMESTAMP)
+		/* Handle timestamp from context descriptor */
+		if (des3_val & RDES3_CTXT) {
+			pkt->timestamp.nanosecond = d->des0;
+			pkt->timestamp._sec.low = d->des1;
+		}
+#endif
 
 		/* Packet reception error */
 		if ((des3_val & (RDES3_ES | RDES3_LD)) == (RDES3_ES | RDES3_LD)) {
@@ -806,6 +821,15 @@ void __attribute((weak)) dwmac_platform_init(const struct device *dev)
 {
 }
 
+#if CONFIG_PTP_CLOCK
+static const struct device *dwmac_get_ptp_clock(const struct device *dev)
+{
+	const struct dwmac_config *cfg = dev->config;
+
+	return cfg->ptp_clock;
+}
+#endif
+
 int dwmac_probe(const struct device *dev)
 {
 	struct dwmac_priv *p = dev->data;
@@ -932,6 +956,11 @@ const struct ethernet_api dwmac_api = {
 	.get_capabilities = dwmac_caps,
 	.set_config = dwmac_set_config,
 	.send = dwmac_send,
+#if CONFIG_PTP_CLOCK
+	.get_ptp_clock = dwmac_get_ptp_clock,
+#endif
+};
+
 #define ETH_DWMAC_GETH_INIT(n)                                                                     \
 	DWMAC_DEVICE(n)                                                                            \
 	static struct dwmac_priv dwmac_instance##n = {};                                           \

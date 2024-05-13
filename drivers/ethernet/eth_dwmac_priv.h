@@ -128,6 +128,9 @@ struct dwmac_config {
 	void (*init_config)();
 	unsigned int irq;
 	const struct device *phy_dev;
+#if CONFIG_PTP_CLOCK
+	const struct device *ptp_clock;
+#endif
 	const struct device *platform;
 
 	uint8_t rx_channel_to_use;
