@@ -455,11 +455,17 @@
 				#size-cells = <0>;
 			};
 
+			ptp_clock0: ptp@f001db00 {
+				compatible = "snps,dwc-eth-qos-ptp-clock";
+				reg = <0xF001DB00 0x20>;
+			};
+
 			eth0: geth@f001d000 {
 				compatible = "snps,designware-ethernet";
 				reg = <0xF001D000 0x2000>;
 				interrupts = <0x160 10>, <0x161 11>, <0x162 12>, <0x163 13>, <0x164 14>, <0x165 15>, <0x166 16>, <0x167 17>, <0x168 18>, <0x169 19>;
 				interrupt-names = "common", "pps", "tx0", "tx1", "tx2", "tx3", "rx0", "rx1", "rx2", "rx3";
+ptp-clock = <&ptp_clock0>;
 			};
 		};
 
