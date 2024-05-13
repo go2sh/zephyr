@@ -476,17 +476,20 @@
 			#size-cells = <1>;
 			clocks = <&fspb>, <&fgeth>, <&fgeth>;
 			clock-names = "csr", "app", "ptp";
+			status = "disabled";
 
 			mdio1: mdio@f0019200 {
 				compatible = "snps,dwc-eth-qos-mdio";
 				reg = <0xF0019200 0x8>;
 				#address-cells = <1>;
 				#size-cells = <0>;
+				status = "disabled";
 			};
 
 			ptp_clock1: ptp@f0019b00 {
 				compatible = "snps,dwc-eth-qos-ptp-clock";
 				reg = <0xF0019B00 0x20>;
+				status = "disabled";
 			};
 			
 			eth1: geth@f0019000 {
@@ -504,6 +507,7 @@
 							 <TC3XX_IR_GETH19_INT 19>;
 				interrupt-names = "common", "pps", "tx0", "tx1", "tx2", "tx3", "rx0", "rx1", "rx2", "rx3";
 				ptp-clock = <&ptp_clock0>;
+				status = "disabled";
 			};
 		};
 
