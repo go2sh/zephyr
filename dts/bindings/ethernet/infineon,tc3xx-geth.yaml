@@ -5,13 +5,8 @@ description: Infineon TC3XX GETH module
 
 compatible: "infineon,tc3xx-geth"
 
-include: ["snps,designware-ethernet.yaml", pinctrl-device.yaml]
+include: [base.yaml, pinctrl-device.yaml]
 
 properties:
   clocks:
     required: true
-  pinctrl-0:
-    required: true
-  pinctrl-names:
-    required: true
-

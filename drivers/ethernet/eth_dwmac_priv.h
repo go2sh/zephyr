@@ -128,6 +128,7 @@ struct dwmac_config {
 	void (*init_config)();
 	unsigned int irq;
 	const struct device *phy_dev;
+	const struct device *platform;
 
 	uint8_t rx_channel_to_use;
 	uint8_t burst_length;
@@ -173,6 +174,7 @@ struct dwmac_config {
 		    COND_CODE_1(DT_INST_IRQ_HAS_CELL(n, flags),                                    \
 				(DT_INST_IRQ_BY_NAME(n, name, flags)), (0)))
 
+#define MAC_PREFIX_FROM_HEX(hex) ((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex)&0xFF)
 #define DWMAC_INIT_CONFIG(n)                                                                       \
 	static void dwmac_init_config_##n(void)                                                    \
 	{                                                                                          \
@@ -188,7 +190,10 @@ struct dwmac_config {
 			(const uint8_t dwmac_mac_addr[6] = DT_INST_PROP(inst, local_mac_address);  \
 			 memcpy(p->mac_addr, dwmac_mac_addr, 6);),                                 \
 			(COND_CODE_1(DT_INST_PROP(n, zephyr_random_mac_address),                   \
-				     (gen_random_mac(p->mac_addr, DWMAC_RANDOM_MAC_PREFIX);), ())))       \
+				     (gen_random_mac(p->mac_addr,                                  \
+						     MAC_PREFIX_FROM_HEX(                          \
+							     CONFIG_DWMAC_RANDOM_MAC_PREFIX));),   \
+				     ())))                                                         \
 	}
 
 #define DWMAC_DEVICE(n)                                                                            \
@@ -201,6 +206,7 @@ struct dwmac_config {
 		.base_addr = DT_INST_REG_ADDR(n), .irq = DT_INST_IRQ_BY_NAME(n, common, irq),      \
 		.init_config = dwmac_init_config_##n,                                              \
 		.phy_dev = DEVICE_DT_GET(DT_INST_PHANDLE(n, phy_handle)),                          \
+			.platform = DEVICE_DT_GET(DT_INST_PARENT(n)),                              \
 		.rx_channel_to_use = DT_INST_PROP(n, snps_rx_channel_to_use),                      \
 		.aal = DT_INST_PROP(n, snps_address_aligned_burst),                                \
 		.fb = DT_INST_PROP(n, snps_fixed_burst_length),                                    \

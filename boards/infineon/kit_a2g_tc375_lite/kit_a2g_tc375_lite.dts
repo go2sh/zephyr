@@ -67,7 +67,7 @@
 	pinctrl-names = "default";
 };
 
-&geth0 {
+&eth0 {
 	status = "okay";
 	pinctrl-0 = <&geth_refclk_p11_12>, <&geth_rxdv_p11_11>, <&geth_rxd0_p11_10>, 
 				<&geth_rxd1_p11_9>, <&geth_txen_p11_6>, <&geth_txd0_p11_3>, 

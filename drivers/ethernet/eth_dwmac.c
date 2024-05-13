@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#define DT_DRV_COMPAT snps_designware_ethernet
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(dwmac_core, CONFIG_ETHERNET_LOG_LEVEL);
 
@@ -13,9 +14,14 @@ LOG_MODULE_REGISTER(dwmac_core, CONFIG_ETHERNET_LOG_LEVEL);
 #include <zephyr/kernel.h>
 #include <zephyr/kernel/mm.h>
 #include <zephyr/cache.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/ethernet/eth_dwc_eth_qos_platform.h>
 #include <zephyr/net/ethernet.h>
+#include <zephyr/net/net_if.h>
+#include <zephyr/net/net_pkt.h>
 #include <zephyr/net/phy.h>
 #include <zephyr/sys/barrier.h>
+#include <zephyr/sys/util.h>
 #include <ethernet/eth_stats.h>
 
 #include "eth_dwmac_priv.h"
@@ -754,14 +760,24 @@ int dwmac_probe(const struct device *dev)
 	int ret;
 	uint32_t reg_val;
 
-	ret = dwmac_bus_init(dev);
-	if (ret != 0) {
-		return ret;
+	if (!device_is_ready(cfg->platform)) {
+		LOG_ERR("Platform (%p) is not ready, cannot init dwmac", cfg->platform);
+		return -EIO;
 	}
 
 	if (!device_is_ready(cfg->phy_dev)) {
 		LOG_ERR("PHY device (%p) is not ready, cannot init dwmac", cfg->phy_dev);
 		return -EFAULT;
+	}
+
+	ret = eth_dwc_eth_qos_clock_control_on(cfg->platform, ETH_DWC_ETH_QOS_CLK_PTP);
+	if (ret) {
+		return ret;
+	}
+
+	ret = eth_dwc_eth_qos_platform_reset(cfg->platform);
+	if (ret) {
+		return ret;
 	}
 
 	reg_val = REG_READ(MAC_VERSION);
@@ -842,18 +858,9 @@ int dwmac_probe(const struct device *dev)
 		k_sem_init(&p->rx_ch[dma_ch].desc_used, p->rx_ch[dma_ch].desc_count - 1,
 			   p->rx_ch[dma_ch].desc_count - 1);
 		sys_slist_init(&p->rx_ch[dma_ch].bufs);
-	}
-
-	/* resets all of the MAC internal registers and logic */
-	REG_WRITE(DMA_MODE, DMA_MODE_SWR);
-	/* Check if reset is complete */
-	if (!WAIT_FOR((REG_READ(DMA_MODE) & DMA_MODE_SWR) == 0, 100, k_busy_wait(50))) {
-		return -ETIMEDOUT;
-	}
+		}
 
 	cfg->init_config();
-
-	dwmac_platform_init(dev);
 
 	REG_WRITE(MMC_RX_INTERRUPT_MASK, 0xFFFFFFFF);
 	REG_WRITE(MMC_TX_INTERRUPT_MASK, 0xFFFFFFFF);
@@ -872,4 +879,11 @@ const struct ethernet_api dwmac_api = {
 	.get_capabilities = dwmac_caps,
 	.set_config = dwmac_set_config,
 	.send = dwmac_send,
-};
+#define ETH_DWMAC_GETH_INIT(n)                                                                     \
+	DWMAC_DEVICE(n)                                                                            \
+	static struct dwmac_priv dwmac_instance##n = {};                                           \
+	static struct dwmac_config dwmac_config##n = DWMAC_DT_INST_CONFIG(n);                      \
+	ETH_NET_DEVICE_DT_INST_DEFINE(n, dwmac_probe, NULL, &dwmac_instance##n, &dwmac_config##n,  \
+				      CONFIG_ETH_INIT_PRIORITY, &dwmac_api, NET_ETH_MTU);
+
+DT_INST_FOREACH_STATUS_OKAY(ETH_DWMAC_GETH_INIT)

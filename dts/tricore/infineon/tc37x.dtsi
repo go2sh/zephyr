@@ -440,23 +440,26 @@
 			};
 		};
 
-		ethernet@f001d000 {
+		geth@f001d000 {
 			reg = <0xF001D000 0x2100>;
+			compatible = "infineon,tc3xx-geth";
 			#address-cells = <1>;
 			#size-cells = <1>;
-			geth0: geth@f001d000 {
-				compatible = "infineon,tc3xx-geth", "snps,designware-ethernet";
-				reg = <0xF001D000 0x2100>;
-				interrupts = <0x160 10>, <0x161 11>, <0x162 12>, <0x163 13>, <0x164 14>, <0x165 15>, <0x166 16>, <0x167 17>, <0x168 18>, <0x169 19>;
-				interrupt-names = "common", "pps", "tx0", "tx1", "tx2", "tx3", "rx0", "rx1", "rx2", "rx3";
-				clocks = <&fgeth>;
-			};
+			clocks = <&fspb>, <&fgeth>, <&fgeth>;
+			clock-names = "csr", "app", "ptp";
 
-			mdio0: mdio@f001d000 {
+			mdio0: mdio@f001d200 {
 				compatible = "snps,dwc-eth-qos-mdio";
-				reg = <0xF001D000 0x2100>;
+				reg = <0xF001D200 0x8>;
 				#address-cells = <1>;
 				#size-cells = <0>;
+			};
+
+			eth0: geth@f001d000 {
+				compatible = "snps,designware-ethernet";
+				reg = <0xF001D000 0x2000>;
+				interrupts = <0x160 10>, <0x161 11>, <0x162 12>, <0x163 13>, <0x164 14>, <0x165 15>, <0x166 16>, <0x167 17>, <0x168 18>, <0x169 19>;
+				interrupt-names = "common", "pps", "tx0", "tx1", "tx2", "tx3", "rx0", "rx1", "rx2", "rx3";
 			};
 		};
 

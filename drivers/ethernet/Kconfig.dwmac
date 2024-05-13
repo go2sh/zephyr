@@ -80,4 +80,8 @@ config DWMAC_USE_DMA_IRQS
 		Use an ISR per DMA channel and direction to enable a finer
 		chose of priority for each channel.
 
+config DWMAC_RANDOM_MAC_PREFIX
+	hex "Random mac address prefix"
+	default 0x020000
+
 endif # ETH_DWMAC
