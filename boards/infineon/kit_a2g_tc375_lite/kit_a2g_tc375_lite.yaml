@@ -1,0 +1,19 @@
+identifier: kit_a2g_tc375_lite
+name: A2G TC375 Litekit
+type: mcu
+arch: tricore
+toolchain:
+  - zephyr
+supported:
+  - gpio
+  - i2c
+  - watchdog
+  - uart
+  - can
+  - pwm
+  - spi
+testing:
+  ignore_tags:
+    - net
+    - bluetooth
+vendor: infineon
