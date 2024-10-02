@@ -13,3 +13,6 @@ family:
       - name: tc162
       - name: tc162
       - name: tc162
+    - name: tc337lp
+      cpuclusters:
+      - name: tc162

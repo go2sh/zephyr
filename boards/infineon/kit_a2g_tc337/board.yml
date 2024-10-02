@@ -1,0 +1,5 @@
+board:
+  name: kit_a2g_tc337
+  vendor: infineon
+  socs:
+    - name: tc337lp
