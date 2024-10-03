@@ -6,7 +6,7 @@
 
 #include <mem.h>
 #include <infineon/tc33x.dtsi>
-#include <infineon/tc3x5-pinctrl.dtsi>
+#include <infineon/tc33x-pinctrl.dtsi>
 
 / {
 

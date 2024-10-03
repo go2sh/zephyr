@@ -61,35 +61,21 @@
 	status = "okay";
 };
 
+&p33 {
+	status = "okay";
+};
+
 &uart0 {
 	status = "okay";
 	pinctrl-0 = <&asclin0_tx_p14_0>, <&asclin0_rx_p14_1>;
 	pinctrl-names = "default";
 };
 
-&eth0 {
-	status = "okay";
-	pinctrl-0 = <&geth_refclk_p11_12>, <&geth_rxdv_p11_11>, <&geth_rxd0_p11_10>, 
-				<&geth_rxd1_p11_9>, <&geth_txen_p11_6>, <&geth_txd0_p11_3>, 
-				<&geth_txd1_p11_2>;
-	pinctrl-names = "default";
-	phy-connection-type = "rmii";
-	phy-handle = <&phy>;
-};
-
-&mdio0 {
-	status = "okay";
-	
-	pinctrl-0 = <&geth_mdc_p21_2>, <&geth_mdio_p21_3>;
-	pinctrl-names = "default";
-
-	phy: ethernet-phy@0 {
-		compatible = "ethernet-phy";
-		reg = <0>;
-	};
-};
-
 &mcmcan0 {
+	status = "okay";
+};
+
+&mcmcan1 {
 	status = "okay";
 };
 

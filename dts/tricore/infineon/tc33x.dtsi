@@ -47,13 +47,13 @@
 
 	dsram0: memory@70000000 {
 		compatible = "zephyr,memory-region","mmio-sram";
-		reg = <0x70000000 DT_SIZE_K(240)>;
+		reg = <0x70000000 DT_SIZE_K(192)>;
 		zephyr,memory-region = "DSRAM0";
 	};
 
 	psram0: memory@70100000 {
 		compatible = "zephyr,memory-region","mmio-sram";
-		reg = <0x70100000 DT_SIZE_K(64)>;
+		reg = <0x70100000 DT_SIZE_K(8)>;
 		zephyr,memory-region = "PSRAM0";
 	};
 
@@ -71,20 +71,6 @@
 			interrupts = <192 1>;
 		};
 
-		stm1: timer@f0001100 {
-			compatible = "infineon,tc3xx-stm";
-			reg = <0xF0001100 256>;
-			clocks = <&fstm>;
-			interrupts = <194 1>;
-		};
-
-		stm2: timer@f0001200 {
-			compatible = "infineon,tc3xx-stm";
-			reg = <0xF0001200 256>;
-			clocks = <&fstm>;
-			interrupts = <196 1>;
-		};
-
 		pinctrl: pinctrl@f003a000 {
 			compatible = "infineon,tc3xx-pinctrl";
 			reg = <0xF003A000 0x100>;
@@ -94,13 +80,6 @@
 			p00: gpio@f003a000 {
 				compatible = "infineon,tc3xx-gpio";
 				reg = <0xF003A000 0x100>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				status = "disabled";
-			};
-			p01: gpio@f003a100 {
-				compatible = "infineon,tc3xx-gpio";
-				reg = <0xF003A100 0x100>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				status = "disabled";
@@ -122,13 +101,6 @@
 			p11: gpio@f003ab00 {
 				compatible = "infineon,tc3xx-gpio";
 				reg = <0xF003AB00 0x100>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				status = "disabled";
-			};
-			p12: gpio@f003ac00 {
-				compatible = "infineon,tc3xx-gpio";
-				reg = <0xF003AC00 0x100>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				status = "disabled";
@@ -211,7 +183,7 @@
 				status = "disabled";
 			};
 		};
-		
+
 		asclin0: asclin@f0000600 {
 			reg = <0xF0000600 256>;
 			#address-cells = <1>;
@@ -226,7 +198,7 @@
 				status = "disabled";
 			};
 		};
-				
+
 		asclin1: asclin@f0000700 {
 			reg = <0xF0000700 256>;
 			#address-cells = <1>;
@@ -241,7 +213,7 @@
 				status = "disabled";
 			};
 		};
-				
+
 		asclin2: asclin@f0000800 {
 			reg = <0xF0000800 256>;
 			#address-cells = <1>;
@@ -256,7 +228,7 @@
 				status = "disabled";
 			};
 		};
-				
+
 		asclin3: asclin@f0000900 {
 			reg = <0xF0000900 256>;
 			#address-cells = <1>;
@@ -272,7 +244,7 @@
 			};
 		};
 
-				
+
 		asclin4: asclin@f0000a00 {
 			reg = <0xF0000A00 256>;
 			#address-cells = <1>;
@@ -287,7 +259,7 @@
 				status = "disabled";
 			};
 		};
-			
+
 		asclin5: asclin@f0000b00 {
 			reg = <0xF0000B00 256>;
 			#address-cells = <1>;
@@ -302,7 +274,7 @@
 				status = "disabled";
 			};
 		};
-		
+
 		asclin6: asclin@f0000c00 {
 			reg = <0xF0000C00 256>;
 			#address-cells = <1>;
@@ -317,7 +289,7 @@
 				status = "disabled";
 			};
 		};
-				
+
 		asclin7: asclin@f0000d00 {
 			reg = <0xF0000D00 256>;
 			#address-cells = <1>;
@@ -332,7 +304,7 @@
 				status = "disabled";
 			};
 		};
-				
+
 		asclin8: asclin@f0000e00 {
 			reg = <0xF0000E00 256>;
 			#address-cells = <1>;
@@ -347,7 +319,7 @@
 				status = "disabled";
 			};
 		};
-				
+
 		asclin9: asclin@f0000f00 {
 			reg = <0xF0000F00 256>;
 			#address-cells = <1>;
@@ -362,7 +334,7 @@
 				status = "disabled";
 			};
 		};
-				
+
 		asclin10: asclin@f02c0a00 {
 			reg = <0xF02C0A00 256>;
 			#address-cells = <1>;
@@ -377,7 +349,7 @@
 				status = "disabled";
 			};
 		};
-				
+
 		asclin11: asclin@f02c0b00 {
 			reg = <0xF02C0B00 256>;
 			#address-cells = <1>;
@@ -412,7 +384,7 @@
 				compatible = "snps,dwc-eth-qos-ptp-clock";
 				reg = <0xF001DB00 0x20>;
 			};
-			
+
 			eth0: geth@f001d000 {
 				compatible = "snps,designware-ethernet";
 				reg = <0xF001D000 0x2000>;
