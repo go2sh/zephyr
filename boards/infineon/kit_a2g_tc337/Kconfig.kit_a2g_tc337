@@ -1,0 +1,6 @@
+# Copyright 2024 Infineon Technologies AG
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_KIT_A2G_TC337
+	bool "Infineon A2G TC337 Starter Kit"
+	select SOC_TC337LP

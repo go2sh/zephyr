@@ -1,0 +1,89 @@
+/*
+ * Copyright (c) 2024 Infineon Technologies AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <infineon/tc337lp.dtsi>
+
+/ {
+	model = "Infineon TC337 Starter Kit";
+	compatible = "infineon,kit_a2g_tc337", "infineon,tc337lp",
+						"infineon,tc3xx";
+
+	chosen {
+		zephyr,flash = &flash0;
+		zephyr,sram = &dsram0;
+		zephyr,itcm = &psram0;
+		zephyr,console = &uart0;
+		infineon,system-timer = &stm0;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		led0: led_0 {
+			gpios = <&p33 4 GPIO_ACTIVE_LOW>;
+		};
+		led1: led_1 {
+			gpios = <&p00 6 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	aliases {
+		led0 = &led0;
+    };
+
+	can_phy0: can-phy0 {
+		compatible = "infineon,tle9251v", "can-transceiver-gpio";
+		standby-gpios = <&p20 6 0>;
+		max-bitrate = <5000000>;
+		#phy-cells = <0>;
+	};
+};
+
+&fosc {
+	clock-frequency = <DT_FREQ_M(20)>;
+	status = "okay";
+};
+
+&stm0 {
+	status = "okay";
+	freeze;
+};
+
+&p00 {
+	status = "okay";
+};
+
+&p20 {
+	status = "okay";
+};
+
+&p33 {
+	status = "okay";
+};
+
+&uart0 {
+	status = "okay";
+	pinctrl-0 = <&asclin0_tx_p14_0>, <&asclin0_rx_p14_1>;
+	pinctrl-names = "default";
+};
+
+&mcmcan0 {
+	status = "okay";
+};
+
+&mcmcan1 {
+	status = "okay";
+};
+
+&can00 {
+	status = "okay";
+	bus-speed = <500000>;
+	bus-speed-data = <2000000>;
+	pinctrl-0 = <&can00_tx_p20_8>, <&can00_rx_p20_7>;
+	pinctrl-names = "default";
+	phys = <&can_phy0>;
+};
